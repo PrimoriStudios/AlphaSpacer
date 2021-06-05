@@ -8,11 +8,43 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://src/scenes/Enemy/Enemy.gd"
+}, {
+"base": "Area2D",
+"class": "Meteor",
+"language": "GDScript",
+"path": "res://src/scenes/Meteor/Meteor.gd"
+}, {
+"base": "Area2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/scenes/Player/Player.gd"
+}, {
+"base": "Enemy",
+"class": "SlowShooterEnemy",
+"language": "GDScript",
+"path": "res://SlowShooterEnemy.gd"
+} ]
+_global_script_class_icons={
+"Enemy": "",
+"Meteor": "",
+"Player": "",
+"SlowShooterEnemy": ""
+}
+
 [application]
 
 config/name="Alpha Spacer - The Impossible Path"
 run/main_scene="res://src/scenes/Gameplay/Gameplay.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Signals="*res://src/autoloads/Signals.gd"
 
 [display]
 
