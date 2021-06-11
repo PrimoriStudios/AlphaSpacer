@@ -1,32 +1,32 @@
 extends Control
 
-var pLifeIcon := preload("res://src/scenes/HUD/LifeIcon.tscn")
+onready var scoreValue := $Header/LeftSection/Score/Value
+onready var lifeBar := $Header/LeftSection/LifeBar/Bar
 
-onready var lifeContainer := $LifeContainer
-onready var scoreLabel := $Score
+export var scoreLength: int = 6
 
 var score: int = 0
 
 func _ready():
-	clearLives()
+	scoreValue.text = fixScore()
 	
 	Signals.connect("on_player_life_changed", self, "_on_player_life_changed")
 	Signals.connect("on_score_increment", self, "_on_score_increment")
-	
-func clearLives():
-	for child in lifeContainer.get_children():
-		lifeContainer.remove_child(child)
-		child.queue_free()
 
-func setLives(lifes: int):
-	clearLives()
-	
-	for i in range(lifes):
-		lifeContainer.add_child(pLifeIcon.instance())
+func setLives(life: int):
+	lifeBar.value = life
 
 func _on_score_increment(amount: int):
 	score += amount
-	scoreLabel.text = str(score)
+	scoreValue.text = fixScore(str(score))
 
-func _on_player_life_changed(lifes: int):
-	setLives(lifes)
+func _on_player_life_changed(life: int, remaining: int):
+	var value := int(remaining * 100 / life)
+	setLives(value)
+
+func fixScore(value := ""):
+	if value.length() < scoreLength:
+		for i in range(0, scoreLength - value.length()):
+			value = "0" + value
+			
+	return value

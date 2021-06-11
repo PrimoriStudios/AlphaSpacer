@@ -9,6 +9,7 @@ export var minRotationRate: float = -10
 export var maxRotationRate: float = 10
 
 export var life: int = 20
+export var score: int = 40
 
 var speed: float = 0.0
 var rotationRate: float = 0
@@ -37,7 +38,7 @@ func damage(amount: int):
 		effect.position = position
 		get_parent().add_child(effect)
 		
-		Signals.emit_signal("on_score_increment", 1)
+		Signals.emit_signal("on_score_increment", score)
 		
 		queue_free()
 

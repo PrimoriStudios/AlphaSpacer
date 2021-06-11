@@ -4,6 +4,11 @@ var pBulletEffect := preload("res://src/scenes/Bullet/BulletEffect.tscn")
 
 export var speed: float = 500
 
+var _damageRate: int
+
+func _init(damageRate: int = 1):
+	_damageRate = damageRate
+
 func _physics_process(delta):
 	position.y -= speed * delta 
 
@@ -19,5 +24,5 @@ func _on_Bullet_area_entered(area):
 		var cam := get_tree().current_scene.find_node("Cam", true, false)
 		cam.shake(1)
 	
-		area.damage(1)
+		area.damage(_damageRate)
 		queue_free()

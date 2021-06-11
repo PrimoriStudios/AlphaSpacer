@@ -4,6 +4,11 @@ var pBulletEffect := preload("res://src/scenes/Bullet/EnemyBulletEffect.tscn")
 
 export var speed: float = 500
 
+var _damageRate: int
+
+func _init(damageRate: int = 1):
+	_damageRate = damageRate
+
 func _physics_process(delta):
 	position.y += speed * delta 
 
@@ -16,5 +21,5 @@ func _on_Bullet_area_entered(area):
 		bulletEffect.position = position
 		get_parent().add_child(bulletEffect)
 		
-		area.damage(1)
+		area.damage(_damageRate)
 		queue_free()

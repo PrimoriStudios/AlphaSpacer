@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/life.png-57e281b078c2407dce025b1146b1ec62.stex"
+path="res://.import/BlueLazer.png-46c85fb56fd192a825f3680b556ecccc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/life.png"
-dest_files=[ "res://.import/life.png-57e281b078c2407dce025b1146b1ec62.stex" ]
+source_file="res://assets/textures/BlueLazer.png"
+dest_files=[ "res://.import/BlueLazer.png-46c85fb56fd192a825f3680b556ecccc.stex" ]
 
 [params]
 

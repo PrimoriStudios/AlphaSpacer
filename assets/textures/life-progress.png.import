@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player_sheet.png-6bbe3e5078e070c5e89f85c9ecd5af6b.stex"
+path="res://.import/life-progress.png-ace8ba70e47396507b78629e224eb8e8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/player_sheet.png"
-dest_files=[ "res://.import/player_sheet.png-6bbe3e5078e070c5e89f85c9ecd5af6b.stex" ]
+source_file="res://assets/textures/life-progress.png"
+dest_files=[ "res://.import/life-progress.png-ace8ba70e47396507b78629e224eb8e8.stex" ]
 
 [params]
 

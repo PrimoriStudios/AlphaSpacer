@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/laserRed.png-c6a4ae16057c5e960ac144ed872bbf97.stex"
+path="res://.import/life-under.png-106d10a8d747c294ace0a4f577423f21.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/laserRed.png"
-dest_files=[ "res://.import/laserRed.png-c6a4ae16057c5e960ac144ed872bbf97.stex" ]
+source_file="res://assets/textures/life-under.png"
+dest_files=[ "res://.import/life-under.png-106d10a8d747c294ace0a4f577423f21.stex" ]
 
 [params]
 

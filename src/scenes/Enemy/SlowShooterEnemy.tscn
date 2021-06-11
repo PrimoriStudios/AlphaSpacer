@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://SlowShooterEnemy.gd" type="Script" id=1]
+[ext_resource path="res://src/scenes/Enemy/SlowShooterEnemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/enemyShip.png" type="Texture" id=2]
 [ext_resource path="res://src/scenes/Enemy/Enemy.tscn" type="PackedScene" id=3]
 

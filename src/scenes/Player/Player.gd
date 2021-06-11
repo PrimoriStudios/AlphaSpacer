@@ -14,22 +14,32 @@ export var speed: float = 100.0
 export var fireDelay: float = 0.1
 export var life: int = 3
 export var damageInvincibilityTime : float = 2.0
+
 var vel := Vector2(0, 0)
+var remainingLife: int = life
+
+var deltaX: float
+var deltaY: float
 
 func _ready():
 	shildSprite.visible = false
 	emitLifeChanged()
+	fireDelayTimer.start(fireDelay)
+	
+func _input(event):
+	if event is InputEventScreenTouch and event.is_pressed():
+		deltaX = event.position.x - position.x
+		deltaY = event.position.y - position.y
+		
+	elif event is InputEventScreenDrag:
+		var posX = event.position.x - deltaX
+		var posY = event.position.y - deltaY
+		position.x = posX
+		position.y = posY
 
 func _process(_delta):
-	if vel.x < 0:
-		sprite.play("left")
-	elif vel.x > 0:
-		sprite.play("right")
-	else:
-		sprite.play("straight")
-		
 	# Check if shooting
-	if Input.is_action_pressed("shoot") and fireDelayTimer.is_stopped():
+	if fireDelayTimer.is_stopped():
 		fireDelayTimer.start(fireDelay)
 		
 		for child in firePoses.get_children():
@@ -67,17 +77,17 @@ func damage(amount: int):
 	invincibilityTimer.start(damageInvincibilityTime)
 	shildSprite.visible = true
 	
-	life -= amount
+	remainingLife -= amount
 	emitLifeChanged()
 	
 	var cam := get_tree().current_scene.find_node("Cam", true, false)
 	cam.shake(20)
 	
-	if life <= 0:
+	if remainingLife <= 0:
 		queue_free()
 
 func _on_InvincibilityTimer_timeout():
 	shildSprite.visible = false
 
 func emitLifeChanged():
-	Signals.emit_signal("on_player_life_changed", life)
+	Signals.emit_signal("on_player_life_changed", life, remainingLife)

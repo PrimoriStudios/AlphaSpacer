@@ -8,6 +8,7 @@ onready var firePoses := $FiringPositions
 
 export var verticalSpeed: float = 10.0
 export var health: int = 5
+export var scores: int = 70
 
 var playerInArea: Player = null
 
@@ -34,7 +35,7 @@ func damage(amount: int):
 		effect.global_position = global_position
 		get_tree().current_scene.add_child(effect)
 		
-		Signals.emit_signal("on_score_increment", 1)
+		Signals.emit_signal("on_score_increment", scores)
 		
 		queue_free()
 
