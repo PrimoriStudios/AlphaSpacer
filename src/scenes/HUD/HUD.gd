@@ -30,3 +30,7 @@ func fixScore(value := ""):
 			value = "0" + value
 			
 	return value
+
+
+func _on_PauseButton_pressed():
+	Signals.emit_signal("on_pause_clicked")

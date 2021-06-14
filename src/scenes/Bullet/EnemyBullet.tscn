@@ -2,10 +2,11 @@
 
 [ext_resource path="res://src/scenes/Bullet/Bullet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/Bullet/EnemyBullet.gd" type="Script" id=2]
-[ext_resource path="res://assets/textures/laserGreen.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/LazerBulletRed.png" type="Texture" id=3]
 
 [node name="EnemyBullet" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="Sprite" parent="." index="0"]
+rotation = 3.14159
 texture = ExtResource( 3 )

@@ -3,9 +3,7 @@
 [ext_resource path="res://src/scenes/Enemy/SlowShooterEnemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/enemyShip.png" type="Texture" id=2]
 [ext_resource path="res://src/scenes/Enemy/Enemy.tscn" type="PackedScene" id=3]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 37.5, 15.5 )
+[ext_resource path="res://assets/sounds/player_bullet_sound.wav" type="AudioStream" id=4]
 
 [node name="SlowShooterEnemy" instance=ExtResource( 3 )]
 script = ExtResource( 1 )
@@ -17,12 +15,7 @@ fireRate = 2.0
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D" parent="." index="1"]
-visible = false
-position = Vector2( 0, -4 )
-shape = SubResource( 1 )
-
-[node name="VisibilityNotifier2D" parent="." index="2"]
+[node name="VisibilityNotifier2D" parent="." index="1"]
 visible = false
 scale = Vector2( 4.06764, 2.19264 )
 
@@ -32,5 +25,11 @@ position = Vector2( -17, 22 )
 [node name="RightGun" type="Node2D" parent="FiringPositions" index="1"]
 position = Vector2( 17, 22 )
 
+[node name="CollisionPolygon2D" parent="." index="3"]
+polygon = PoolVector2Array( 0.25, 49.5, 22.75, 34.5, 56.5, -27.75, 39.5852, -75.1822, 25.427, -30.3482, 16.4602, -42.6186, 16.2243, -56.7767, 0.17841, -73.0585, -15.6315, -57.2486, -15.8675, -42.1466, -24.8343, -30.1122, -38.7564, -74.4743, -55.9821, -27.7526, -22.0026, 34.5432 )
+
 [node name="FireTimer" type="Timer" parent="." index="4"]
 one_shot = true
+
+[node name="BulletSound" parent="." index="5"]
+stream = ExtResource( 4 )

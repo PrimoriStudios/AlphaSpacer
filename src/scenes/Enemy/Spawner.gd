@@ -10,14 +10,13 @@ var pMeteor := preload("res://src/scenes/Meteor/Meteor.tscn")
 
 onready var spawnTimer := $SpawnTimer
 
-export var minSpawnTime = 1.5
+export var minSpawnTime: float = 1.5
+export var delay: float = 5.0
 
-var nextSpawnTime: float = 5.0
+var nextDelay: float = 5.0
 
 func _ready():
 	randomize()
-	spawnTimer.start(nextSpawnTime)
-
 
 func _on_SpawnTimer_timeout():
 	var viewRect := get_viewport_rect()
@@ -36,8 +35,15 @@ func _on_SpawnTimer_timeout():
 		enemy.position = pos
 		get_tree().current_scene.add_child(enemy)
 	
-	nextSpawnTime -= 0.1
-	if nextSpawnTime < minSpawnTime:
-		nextSpawnTime = minSpawnTime
+	nextDelay -= 0.1
+	if nextDelay < minSpawnTime:
+		nextDelay = minSpawnTime
 		
-	spawnTimer.start(nextSpawnTime)
+	spawnTimer.start(nextDelay)
+
+func start():
+	spawnTimer.start(nextDelay)
+
+func reset():
+	spawnTimer.stop()
+	nextDelay = delay

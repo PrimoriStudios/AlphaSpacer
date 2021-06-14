@@ -75,10 +75,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureButton" type="TextureButton" parent="Header"]
+[node name="PauseButton" type="TextureButton" parent="Header"]
 margin_left = 952.0
 margin_right = 1000.0
 margin_bottom = 48.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture_normal = ExtResource( 2 )
+
+[connection signal="pressed" from="Header/PauseButton" to="." method="_on_PauseButton_pressed"]

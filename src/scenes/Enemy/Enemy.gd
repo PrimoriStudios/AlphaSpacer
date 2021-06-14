@@ -10,6 +10,8 @@ export var verticalSpeed: float = 10.0
 export var health: int = 5
 export var scores: int = 70
 
+var isDead = false
+
 var playerInArea: Player = null
 
 func _process(delta):
@@ -36,18 +38,24 @@ func damage(amount: int):
 		get_tree().current_scene.add_child(effect)
 		
 		Signals.emit_signal("on_score_increment", scores)
-		
-		queue_free()
+		died()
+
+func died():
+	visible = false
+	$ExplosionSound.play()
+	add_to_group("dead")
+	isDead = true
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
-
 func _on_Enemy_area_entered(area):
-	if area is Player:
+	if area is Player and not isDead:
 		playerInArea = area
 
-
 func _on_Enemy_area_exited(area):
-	if area is Player:
+	if area is Player and not isDead:
 		playerInArea = null
+
+func _on_ExplosionSound_finished():
+		queue_free()
