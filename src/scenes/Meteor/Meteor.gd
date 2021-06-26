@@ -19,15 +19,18 @@ var isDead := false
 func _ready():
 	speed = rand_range(minSpeed, maxSpeed)
 	rotationRate = rand_range(minRotationRate, maxRotationRate)
-	
+
+
 func _process(delta):
 	if playerInArea != null:
 		playerInArea.damage(1)
-	
+
+
 func _physics_process(delta):
 	rotation_degrees += rotationRate * delta
 	
 	position.y += speed * delta
+
 
 func damage(amount: int):
 	if life <= 0:
@@ -40,24 +43,29 @@ func damage(amount: int):
 		get_parent().add_child(effect)
 		
 		Signals.emit_signal("on_score_increment", score)
-		died()
+		explode()
 
-func died():
+
+func explode():
 	visible = false
 	$ExplosionSound.play()
 	add_to_group("dead")
 	isDead = true
 
+
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+
 
 func _on_Meteor_area_entered(area):
 	if area is Player and not isDead:
 		playerInArea = area
 
+
 func _on_Meteor_area_exited(area):
 	if area is Player and not isDead:
 		playerInArea = null
+
 
 func _on_ExplosionSound_finished():
 	queue_free()

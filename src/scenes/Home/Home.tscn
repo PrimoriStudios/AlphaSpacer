@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/scenes/Home/Home.gd" type="Script" id=2]
@@ -7,24 +7,31 @@
 [ext_resource path="res://assets/fonts/Baloo2-Regular.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="DynamicFont" id=1]
-size = 136
-extra_spacing_bottom = -30
+size = 162
+extra_spacing_top = -20
+extra_spacing_bottom = -40
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 64
+size = 136
+extra_spacing_top = -20
+extra_spacing_bottom = -30
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 56
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 104
 extra_spacing_bottom = -40
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 84
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 size = 72
 font_data = ExtResource( 5 )
 
@@ -45,22 +52,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TitleLabel" type="Label" parent="Title"]
-margin_top = 301.0
+[node name="AlphaTitle" type="Label" parent="Title"]
+margin_top = 307.0
 margin_right = 1080.0
-margin_bottom = 571.0
+margin_bottom = 450.0
 custom_fonts/font = SubResource( 1 )
 custom_constants/line_spacing = -12
-text = "Alpha
-Spacer"
+text = "Alpha"
+align = 1
+uppercase = true
+
+[node name="SpacerTitle" type="Label" parent="Title"]
+margin_top = 454.0
+margin_right = 1080.0
+margin_bottom = 575.0
+custom_fonts/font = SubResource( 2 )
+custom_constants/line_spacing = -12
+text = "Spacer"
 align = 1
 uppercase = true
 
 [node name="CaptionLabel" type="Label" parent="Title"]
-margin_top = 575.0
+margin_top = 579.0
 margin_right = 1080.0
-margin_bottom = 656.0
-custom_fonts/font = SubResource( 2 )
+margin_bottom = 650.0
+custom_fonts/font = SubResource( 3 )
 custom_constants/line_spacing = 0
 text = "The Imposible Path"
 align = 1
@@ -73,13 +89,14 @@ size_flags_vertical = 3
 custom_constants/separation = 70
 
 [node name="BestScore" type="VBoxContainer" parent="Body"]
+visible = false
 margin_right = 1080.0
 margin_bottom = 236.0
 
 [node name="Title" type="Label" parent="Body/BestScore"]
 margin_right = 1080.0
 margin_bottom = 125.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Best Score"
 align = 1
 
@@ -87,14 +104,13 @@ align = 1
 margin_top = 129.0
 margin_right = 1080.0
 margin_bottom = 236.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "000000"
 align = 1
 
 [node name="TapLabel" type="Label" parent="Body"]
-margin_top = 306.0
 margin_right = 1080.0
-margin_bottom = 420.0
-custom_fonts/font = SubResource( 5 )
+margin_bottom = 114.0
+custom_fonts/font = SubResource( 6 )
 text = "Tap to start"
 align = 1
