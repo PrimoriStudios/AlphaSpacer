@@ -25,6 +25,7 @@ var startingPos: Vector2
 
 var loading = true
 
+
 func _ready():
 	startingPos = get_parent().get_node("StartingPos").position
 	position.x = startingPos.x
@@ -33,7 +34,8 @@ func _ready():
 	shildSprite.visible = false
 	emitLifeChanged()
 	fireDelayTimer.start(fireDelay)
-	
+
+
 func _input(event):
 	if event is InputEventScreenTouch and event.is_pressed() and not loading:
 		deltaX = event.position.x - position.x
@@ -44,6 +46,7 @@ func _input(event):
 		var posY = event.position.y - deltaY
 		position.x = posX
 		position.y = posY
+
 
 func _process(_delta):
 	if loading:
@@ -58,7 +61,8 @@ func _process(_delta):
 			var bullet := plBullet.instance()
 			bullet.global_position = child.global_position
 			get_tree().current_scene.add_child(bullet)
-	
+
+
 func _physics_process(delta):
 	if loading:
 		onLoading(delta)
@@ -86,12 +90,14 @@ func _physics_process(delta):
 	position.x = clamp(position.x, 0, viewRect.size.x)
 	position.y = clamp(position.y, 0, viewRect.size.y)
 
+
 func onLoading(delta):
 	if (position.y <= startingPos.y):
 		loading = false
 		return
 	
 	position.y -= loadingSpeed * delta
+
 
 func damage(amount: int):
 	if !invincibilityTimer.is_stopped():
@@ -109,8 +115,10 @@ func damage(amount: int):
 	if remainingLife <= 0:
 		queue_free()
 
+
 func _on_InvincibilityTimer_timeout():
 	shildSprite.visible = false
+
 
 func emitLifeChanged():
 	Signals.emit_signal("on_player_life_changed", life, remainingLife)

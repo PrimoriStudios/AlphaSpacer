@@ -6,6 +6,7 @@ onready var lifeBar := $Header/LeftSection/LifeBar/Bar
 export var scoreLength: int = 6
 
 var score: int = 0
+var coins: int = 0
 
 func _ready():
 	scoreValue.text = fixScore()
