@@ -8,7 +8,10 @@ onready var firePoses := $FiringPositions
 onready var fireDelayTimer := $FireDelayTimer
 onready var invincibilityTimer := $InvincibilityTimer
 onready var shildSprite := $Shield
+onready var hitSound := $HitSound
 onready var bulletSound := $BulletSound
+onready var explosionSound := $ExplosionSound
+onready var collision := $CollisionPolygon2D
 
 export var speed: float = 100.0
 export var loadingSpeed: float = 300
@@ -23,7 +26,8 @@ var deltaX: float
 var deltaY: float
 var startingPos: Vector2
 
-var loading = true
+var died: bool = false
+var loading: bool = true
 
 
 func _ready():
@@ -49,7 +53,7 @@ func _input(event):
 
 
 func _process(_delta):
-	if loading:
+	if loading or died:
 		return
 	
 	# Check if shooting
@@ -64,6 +68,8 @@ func _process(_delta):
 
 
 func _physics_process(delta):
+	if died: return
+	
 	if loading:
 		onLoading(delta)
 		return
@@ -100,7 +106,7 @@ func onLoading(delta):
 
 
 func damage(amount: int):
-	if !invincibilityTimer.is_stopped():
+	if !invincibilityTimer.is_stopped() or died:
 		return
 		
 	invincibilityTimer.start(damageInvincibilityTime)
@@ -113,7 +119,17 @@ func damage(amount: int):
 	cam.shake(20)
 	
 	if remainingLife <= 0:
-		queue_free()
+		die()
+	else:
+		hitSound.play()
+
+
+func die():
+	died = true
+	collision.disabled = true
+	visible = false
+	explosionSound.play()
+	Signals.emit_signal("on_player_died")
 
 
 func _on_InvincibilityTimer_timeout():

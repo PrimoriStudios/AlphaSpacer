@@ -11,6 +11,7 @@ height = 47.4209
 "bullet",
 ]]
 script = ExtResource( 2 )
+speed = 700.0
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.3, 0.3 )

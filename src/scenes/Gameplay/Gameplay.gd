@@ -9,6 +9,7 @@ onready var scoreValue := $HomeLayer/Home/Body/BestScore/Value
 onready var starsParticle := $Background/StarsParticle
 onready var hud := $HUDLayer/HUD
 onready var spawner := $Spawner
+onready var continuePanel := $PanelLayer/ContinuePanel
 
 export var saveGamePath: String
 
@@ -19,11 +20,13 @@ var defGameState = {
 	"Coins": 0
 }
 
-
 func _ready() -> void:
 	get_tree().set_quit_on_go_back(false)
 	Signals.connect("on_home_pressed", self, "_on_home_pressed")
 	Signals.connect("on_restart_pressed", self, "_on_restart_pressed")
+	Signals.connect("on_continue_requested", self, "_on_continue_requested")
+	Signals.connect("on_continue_cancelled", self, "_on_continue_cancelled")
+	Signals.connect("on_player_died", self, "_on_player_died")
 	
 	filer = pFiler.new(saveGamePath, defGameState)
 
@@ -92,11 +95,27 @@ func reset() -> void:
 		bullet.queue_free()
 
 
-func _on_home_pressed() -> void:
+func gameover():
 	reset()
 	stop()
+
+
+func _on_home_pressed() -> void:
+	gameover()
 
 
 func _on_restart_pressed() -> void:
 	reset()
 	start()
+
+
+func _on_continue_requested() -> void:
+	gameover()
+
+
+func _on_continue_cancelled() -> void:
+	gameover()
+
+
+func _on_player_died() -> void:
+	continuePanel.show()

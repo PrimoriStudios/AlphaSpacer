@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
+[ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/textures/starBig.png" type="Texture" id=3]
 [ext_resource path="res://src/scenes/Enemy/Spawner.gd" type="Script" id=4]
@@ -7,6 +8,40 @@
 [ext_resource path="res://src/Camera/ShakeCam.gd" type="Script" id=6]
 [ext_resource path="res://src/scenes/Gameplay/Gameplay.gd" type="Script" id=7]
 [ext_resource path="res://src/scenes/Home/Home.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/textures/upgrade-effect.png" type="Texture" id=9]
+[ext_resource path="res://src/scenes/Panels/ContinuePanel.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Animation" id=1]
+resource_name = "damage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("DamageEffect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "upgrade"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("UpgradeEffect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="Gameplay" type="Node"]
 script = ExtResource( 7 )
@@ -43,6 +78,7 @@ scale_amount = 0.1
 scale_amount_random = 0.1
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
+layer = 10
 
 [node name="HUD" parent="HUDLayer" instance=ExtResource( 5 )]
 visible = false
@@ -70,8 +106,39 @@ current = true
 script = ExtResource( 6 )
 
 [node name="HomeLayer" type="CanvasLayer" parent="."]
+layer = 10
 
 [node name="Home" parent="HomeLayer" instance=ExtResource( 8 )]
+
+[node name="EffectLayer" type="CanvasLayer" parent="."]
+
+[node name="DamageEffect" type="TextureRect" parent="EffectLayer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeEffect" type="TextureRect" parent="EffectLayer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EffectLayer"]
+anims/damage = SubResource( 1 )
+anims/upgrade = SubResource( 2 )
+
+[node name="PanelLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="ContinuePanel" parent="PanelLayer" instance=ExtResource( 10 )]
+visible = false
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]
 [connection signal="start_pressed" from="HomeLayer/Home" to="." method="_on_Home_start_pressed"]

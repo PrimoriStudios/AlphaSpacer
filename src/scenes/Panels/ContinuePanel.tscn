@@ -1,0 +1,154 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/textures/countdown-progress-under.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/countdown-progress.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/Baloo2-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/textures/hp-label.png" type="Texture" id=5]
+[ext_resource path="res://src/scenes/Panels/ContinuePanel.gd" type="Script" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.745098 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 132
+extra_spacing_bottom = -15
+font_data = ExtResource( 4 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.360784, 0.721569, 0.360784, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="DynamicFont" id=5]
+size = 64
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 58
+extra_spacing_top = -23
+extra_spacing_bottom = -32
+font_data = ExtResource( 3 )
+
+[node name="ContinuePanel" type="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -410.0
+margin_top = -316.5
+margin_right = 410.0
+margin_bottom = 316.5
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 820.0
+margin_bottom = 633.0
+custom_constants/margin_right = 40
+custom_constants/margin_top = 60
+custom_constants/margin_left = 40
+custom_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 780.0
+margin_bottom = 573.0
+custom_constants/separation = 60
+
+[node name="Countdown" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 740.0
+margin_bottom = 248.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="Progress" type="TextureProgress" parent="MarginContainer/VBoxContainer/Countdown"]
+margin_left = 246.0
+margin_right = 494.0
+margin_bottom = 248.0
+size_flags_horizontal = 4
+step = 0.0
+value = 75.0
+texture_under = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
+fill_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLeft" type="Label" parent="MarginContainer/VBoxContainer/Countdown"]
+margin_left = 335.0
+margin_top = 27.0
+margin_right = 404.0
+margin_bottom = 221.0
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 3 )
+text = "5"
+
+[node name="ContinueButton" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+margin_left = 163.0
+margin_top = 308.0
+margin_right = 577.0
+margin_bottom = 410.0
+size_flags_horizontal = 4
+custom_styles/panel = SubResource( 4 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ContinueButton"]
+margin_right = 414.0
+margin_bottom = 102.0
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ContinueButton/MarginContainer"]
+margin_left = 20.0
+margin_right = 394.0
+margin_bottom = 102.0
+custom_constants/separation = 30
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ContinueButton/MarginContainer/HBoxContainer"]
+margin_right = 263.0
+margin_bottom = 102.0
+custom_fonts/font = SubResource( 5 )
+text = "Continue"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/ContinueButton/MarginContainer/HBoxContainer"]
+margin_left = 293.0
+margin_top = 28.0
+margin_right = 374.0
+margin_bottom = 73.0
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ContinueButton"]
+margin_right = 414.0
+margin_bottom = 102.0
+flat = true
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_left = 238.0
+margin_top = 470.0
+margin_right = 501.0
+margin_bottom = 513.0
+focus_mode = 0
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 6 )
+text = "No thanks"
+flat = true
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ContinueButton/Button" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
