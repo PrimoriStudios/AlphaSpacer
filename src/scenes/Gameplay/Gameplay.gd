@@ -10,6 +10,8 @@ onready var starsParticle := $Background/StarsParticle
 onready var hud := $HUDLayer/HUD
 onready var spawner := $Spawner
 onready var continuePanel := $PanelLayer/ContinuePanel
+onready var gameOverLabel := $GameoverLayer/Label
+onready var gameOverSound := $GameoverLayer/Sound
 
 export var saveGamePath: String
 
@@ -64,7 +66,6 @@ func start() -> void:
 
 func stop() -> void:
 	home.visible = true
-	hud.visible = false
 	saveState()
 
 
@@ -97,7 +98,9 @@ func reset() -> void:
 
 func gameover():
 	reset()
-	stop()
+	hud.visible = false
+	gameOverLabel.visible = true
+	gameOverSound.play()
 
 
 func _on_home_pressed() -> void:
@@ -110,7 +113,7 @@ func _on_restart_pressed() -> void:
 
 
 func _on_continue_requested() -> void:
-	gameover()
+	playerInstance.restore()
 
 
 func _on_continue_cancelled() -> void:
@@ -119,3 +122,8 @@ func _on_continue_cancelled() -> void:
 
 func _on_player_died() -> void:
 	continuePanel.show()
+
+
+func _on_GamoverSound_finished():
+	gameOverLabel.visible = false
+	stop()

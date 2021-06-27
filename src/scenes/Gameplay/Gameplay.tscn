@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
@@ -10,10 +10,12 @@
 [ext_resource path="res://src/scenes/Home/Home.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/textures/upgrade-effect.png" type="Texture" id=9]
 [ext_resource path="res://src/scenes/Panels/ContinuePanel.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/sounds/gameover-sound.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "damage"
-length = 0.3
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("DamageEffect:modulate")
 tracks/0/interp = 1
@@ -21,7 +23,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -29,7 +31,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "upgrade"
-length = 0.3
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("UpgradeEffect:modulate")
 tracks/0/interp = 1
@@ -37,11 +39,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+
+[sub_resource type="DynamicFont" id=3]
+size = 156
+font_data = ExtResource( 12 )
 
 [node name="Gameplay" type="Node"]
 script = ExtResource( 7 )
@@ -140,5 +146,30 @@ layer = 20
 [node name="ContinuePanel" parent="PanelLayer" instance=ExtResource( 10 )]
 visible = false
 
+[node name="GameoverLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Label" type="Label" parent="GameoverLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -303.0
+margin_top = -123.0
+margin_right = 303.0
+margin_bottom = 123.0
+custom_fonts/font = SubResource( 3 )
+text = "You Lost"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="GameoverLayer"]
+position = Vector2( 1080, 0 )
+stream = ExtResource( 11 )
+
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]
 [connection signal="start_pressed" from="HomeLayer/Home" to="." method="_on_Home_start_pressed"]
+[connection signal="finished" from="GameoverLayer/Sound" to="." method="_on_GamoverSound_finished"]

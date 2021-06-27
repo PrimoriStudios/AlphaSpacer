@@ -3,6 +3,7 @@ extends Area2D
 class_name Player
 
 var plBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
+var pBulletEffect := preload("res://src/scenes/Bullet/BulletEffect.tscn")
 
 onready var firePoses := $FiringPositions
 onready var fireDelayTimer := $FireDelayTimer
@@ -12,6 +13,8 @@ onready var hitSound := $HitSound
 onready var bulletSound := $BulletSound
 onready var explosionSound := $ExplosionSound
 onready var collision := $CollisionPolygon2D
+onready var anims := $AnimationPlayer
+onready var upgradeSound := $UpgradeSound
 
 export var speed: float = 100.0
 export var loadingSpeed: float = 300
@@ -28,12 +31,17 @@ var startingPos: Vector2
 
 var died: bool = false
 var loading: bool = true
-
+var effectAnims
+var cam
 
 func _ready():
 	startingPos = get_parent().get_node("StartingPos").position
 	position.x = startingPos.x
 	position.y = get_viewport_rect().end.y
+	
+	var root = get_tree().get_root()
+	effectAnims = root.get_node("Gameplay/EffectLayer/AnimationPlayer")
+	cam = root.get_node("Gameplay/Cam")
 	
 	shildSprite.visible = false
 	emitLifeChanged()
@@ -63,8 +71,14 @@ func _process(_delta):
 		
 		for child in firePoses.get_children():
 			var bullet := plBullet.instance()
+			var effect := pBulletEffect.instance()
+			var cScene := get_tree().current_scene
+			
 			bullet.global_position = child.global_position
-			get_tree().current_scene.add_child(bullet)
+			effect.global_position = child.global_position
+			
+			cScene.add_child(bullet)
+			cScene.add_child(effect)
 
 
 func _physics_process(delta):
@@ -115,13 +129,14 @@ func damage(amount: int):
 	remainingLife -= amount
 	emitLifeChanged()
 	
-	var cam := get_tree().current_scene.find_node("Cam", true, false)
 	cam.shake(20)
+	effectAnims.play("damage")
 	
 	if remainingLife <= 0:
 		die()
 	else:
 		hitSound.play()
+		anims.play("damage")
 
 
 func die():
@@ -130,6 +145,14 @@ func die():
 	visible = false
 	explosionSound.play()
 	Signals.emit_signal("on_player_died")
+
+
+func restore():
+	died = false
+	collision.disabled = false
+	visible = true
+	effectAnims.play("upgrade")
+	upgradeSound.play()
 
 
 func _on_InvincibilityTimer_timeout():

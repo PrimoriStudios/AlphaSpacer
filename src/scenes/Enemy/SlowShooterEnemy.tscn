@@ -20,10 +20,10 @@ visible = false
 scale = Vector2( 4.06764, 2.19264 )
 
 [node name="LeftGun" type="Node2D" parent="FiringPositions" index="0"]
-position = Vector2( -17, 22 )
+position = Vector2( -14.5, 78 )
 
 [node name="RightGun" type="Node2D" parent="FiringPositions" index="1"]
-position = Vector2( 17, 22 )
+position = Vector2( 14.5, 78 )
 
 [node name="CollisionPolygon2D" parent="." index="3"]
 polygon = PoolVector2Array( 0.25, 49.5, 22.75, 34.5, 56.5, -27.75, 39.5852, -75.1822, 25.427, -30.3482, 16.4602, -42.6186, 16.2243, -56.7767, 0.17841, -73.0585, -15.6315, -57.2486, -15.8675, -42.1466, -24.8343, -30.1122, -38.7564, -74.4743, -55.9821, -27.7526, -22.0026, 34.5432 )
