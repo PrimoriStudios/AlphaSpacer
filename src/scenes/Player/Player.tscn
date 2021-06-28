@@ -70,11 +70,11 @@ volume_db = -5.0
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
-volume_db = 10.0
+volume_db = 20.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
-volume_db = 10.0
+volume_db = 20.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damage = SubResource( 1 )

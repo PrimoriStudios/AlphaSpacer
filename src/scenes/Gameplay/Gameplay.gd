@@ -12,6 +12,7 @@ onready var spawner := $Spawner
 onready var continuePanel := $PanelLayer/ContinuePanel
 onready var gameOverLabel := $GameoverLayer/Label
 onready var gameOverSound := $GameoverLayer/Sound
+onready var pausePanel := $PauseLayer/Pause
 
 export var saveGamePath: String
 
@@ -24,6 +25,7 @@ var defGameState = {
 
 func _ready() -> void:
 	get_tree().set_quit_on_go_back(false)
+	Signals.connect("on_pause_clicked", self, "_on_pause_clicked")
 	Signals.connect("on_home_pressed", self, "_on_home_pressed")
 	Signals.connect("on_restart_pressed", self, "_on_restart_pressed")
 	Signals.connect("on_continue_requested", self, "_on_continue_requested")
@@ -40,6 +42,13 @@ func _notification(what) -> void:
 		onBackPressed()
 
 
+func _on_pause_clicked():
+	if not continuePanel.visible:
+		var newPauseState = not get_tree().paused
+		get_tree().paused = newPauseState
+		pausePanel.visible = newPauseState
+
+
 func onBackPressed() -> void:
 	Signals.emit_signal("on_go_back_requested")
 
@@ -48,14 +57,6 @@ func _on_Home_start_pressed() -> void:
 
 
 func start() -> void:
-	var data = filer.read()
-	var lastScore: int = data["Score"]
-	
-	if lastScore != 0:
-		scoreValue.text = str(lastScore)
-		if not bestScore.visible:
-			bestScore.visible = true
-	
 	home.visible = false
 	hud.visible = true
 	starsParticle.set_emitting(true)
@@ -65,21 +66,32 @@ func start() -> void:
 
 
 func stop() -> void:
+	showHome()
+
+func showHome():
+	var data = filer.read()
+	var lastScore: int = data["Score"]
+	
+	if lastScore != 0:
+		scoreValue.text = str(lastScore)
+		if not bestScore.visible:
+			bestScore.visible = true
+	
 	home.visible = true
-	saveState()
 
 
 func saveState() -> void:
 	var data = filer.read()
+	var cScore = data["Score"]
 	
-	var score = data["Score"]
-	if hud.score > score:
-		hud.score
+	if hud.score > cScore:
+		cScore = hud.score
 	
 	filer.save({
-		"Score": score,
+		"Score": cScore,
 		"Coins": data["Coins"] + hud.coins
 	})
+
 
 func reset() -> void:
 	starsParticle.set_emitting(false)
@@ -94,6 +106,9 @@ func reset() -> void:
 	var bullets = get_tree().get_nodes_in_group("bullet")
 	for bullet in bullets:
 		bullet.queue_free()
+	
+	saveState()
+	hud.reset()
 
 
 func gameover():
@@ -104,7 +119,9 @@ func gameover():
 
 
 func _on_home_pressed() -> void:
-	gameover()
+	reset()
+	hud.visible = false
+	stop()
 
 
 func _on_restart_pressed() -> void:

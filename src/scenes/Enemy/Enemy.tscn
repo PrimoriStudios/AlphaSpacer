@@ -24,6 +24,7 @@ tracks/0/keys = {
 [node name="Enemy" type="Area2D" groups=[
 "damageable",
 ]]
+z_index = 1
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -43,12 +44,14 @@ polygon = PoolVector2Array( -0.244583, -46.2922, 12.8367, -44.5084, 26.8099, -37
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+volume_db = 20.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damage = SubResource( 1 )
 
 [node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+volume_db = 20.0
 
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_Enemy_area_exited"]

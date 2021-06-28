@@ -1,7 +1,6 @@
 extends Area2D
-class_name Meteor
 
-var pMeteorEffect := preload("res://src/scenes/Meteor/MeteorEffect.tscn")
+class_name Meteor
 
 export var minSpeed: float = 10
 export var maxSpeed: float = 20
@@ -41,15 +40,11 @@ func damage(amount: int):
 	
 	life -= amount
 	if life <= 0:
-		var effect :=pMeteorEffect.instance()
-		effect.position = position
-		get_parent().add_child(effect)
-		
 		Signals.emit_signal("on_score_increment", score)
 		explode()
 	else:
-		damageSound.play()
 		animPlayer.play("damage")
+		damageSound.play()
 
 
 func explode():

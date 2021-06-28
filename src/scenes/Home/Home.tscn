@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/scenes/Home/Home.gd" type="Script" id=2]
 [ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://assets/fonts/Dosis-Bold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/fonts/Baloo2-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://assets/textures/Crown.png" type="Texture" id=6]
+[ext_resource path="res://src/scenes/GUI/CoinCounter.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/scenes/GUI/GemCounter.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 162
@@ -43,9 +46,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 margin_right = 1080.0
-margin_bottom = 958.0
+margin_bottom = 134.0
+custom_constants/margin_right = 60
+custom_constants/margin_top = 60
+custom_constants/margin_left = 60
+custom_constants/margin_bottom = 0
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 1020.0
+margin_bottom = 134.0
+custom_constants/separation = 40
+
+[node name="CoinCounter" parent="MarginContainer/Header" instance=ExtResource( 7 )]
+
+[node name="GemCounter" parent="MarginContainer/Header" instance=ExtResource( 8 )]
+margin_left = 232.0
+margin_right = 424.0
+size_flags_horizontal = 1
+
+[node name="Title" type="VBoxContainer" parent="."]
+margin_top = 138.0
+margin_right = 1080.0
+margin_bottom = 1027.0
 size_flags_vertical = 3
 alignment = 1
 __meta__ = {
@@ -53,9 +79,9 @@ __meta__ = {
 }
 
 [node name="AlphaTitle" type="Label" parent="Title"]
-margin_top = 307.0
+margin_top = 273.0
 margin_right = 1080.0
-margin_bottom = 450.0
+margin_bottom = 416.0
 custom_fonts/font = SubResource( 1 )
 custom_constants/line_spacing = -12
 text = "Alpha"
@@ -63,9 +89,9 @@ align = 1
 uppercase = true
 
 [node name="SpacerTitle" type="Label" parent="Title"]
-margin_top = 454.0
+margin_top = 420.0
 margin_right = 1080.0
-margin_bottom = 575.0
+margin_bottom = 541.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = -12
 text = "Spacer"
@@ -73,16 +99,16 @@ align = 1
 uppercase = true
 
 [node name="CaptionLabel" type="Label" parent="Title"]
-margin_top = 579.0
+margin_top = 545.0
 margin_right = 1080.0
-margin_bottom = 650.0
+margin_bottom = 616.0
 custom_fonts/font = SubResource( 3 )
 custom_constants/line_spacing = 0
 text = "The Imposible Path"
 align = 1
 
 [node name="Body" type="VBoxContainer" parent="."]
-margin_top = 962.0
+margin_top = 1031.0
 margin_right = 1080.0
 margin_bottom = 1920.0
 size_flags_vertical = 3
@@ -91,19 +117,27 @@ custom_constants/separation = 70
 [node name="BestScore" type="VBoxContainer" parent="Body"]
 visible = false
 margin_right = 1080.0
-margin_bottom = 236.0
+margin_bottom = 388.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/BestScore"]
+margin_left = 444.0
+margin_right = 636.0
+margin_bottom = 148.0
+size_flags_horizontal = 4
+texture = ExtResource( 6 )
 
 [node name="Title" type="Label" parent="Body/BestScore"]
+margin_top = 152.0
 margin_right = 1080.0
-margin_bottom = 125.0
+margin_bottom = 277.0
 custom_fonts/font = SubResource( 4 )
 text = "Best Score"
 align = 1
 
 [node name="Value" type="Label" parent="Body/BestScore"]
-margin_top = 129.0
+margin_top = 281.0
 margin_right = 1080.0
-margin_bottom = 236.0
+margin_bottom = 388.0
 custom_fonts/font = SubResource( 5 )
 text = "000000"
 align = 1

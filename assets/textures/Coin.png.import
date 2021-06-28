@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/meteorSmall.png-075c5551e62d92e177e4bd87a45db520.stex"
+path="res://.import/Coin.png-92ed16662ca44189cba516778b071ebe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/meteorSmall.png"
-dest_files=[ "res://.import/meteorSmall.png-075c5551e62d92e177e4bd87a45db520.stex" ]
+source_file="res://assets/textures/Coin.png"
+dest_files=[ "res://.import/Coin.png-92ed16662ca44189cba516778b071ebe.stex" ]
 
 [params]
 

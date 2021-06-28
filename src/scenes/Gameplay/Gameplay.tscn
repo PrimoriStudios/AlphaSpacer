@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
@@ -12,9 +12,12 @@
 [ext_resource path="res://src/scenes/Panels/ContinuePanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/sounds/gameover-sound.wav" type="AudioStream" id=11]
 [ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://src/scenes/Reward/RewardThrow.tscn" type="PackedScene" id=13]
 
-[sub_resource type="Animation" id=1]
-resource_name = "damage"
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+
+[sub_resource type="Animation" id=2]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("DamageEffect:modulate")
@@ -29,8 +32,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "upgrade"
+[sub_resource type="Animation" id=3]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("UpgradeEffect:modulate")
@@ -45,7 +47,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 156
 font_data = ExtResource( 12 )
 
@@ -66,11 +68,12 @@ __meta__ = {
 }
 
 [node name="StarsParticle" type="CPUParticles2D" parent="Background"]
+material = SubResource( 1 )
 position = Vector2( 640, 99 )
 scale = Vector2( 3.00761, 4.01182 )
 emitting = false
-amount = 200
-lifetime = 30.0
+amount = 300
+lifetime = 25.0
 speed_scale = 2.0
 texture = ExtResource( 3 )
 emission_shape = 2
@@ -78,10 +81,15 @@ emission_rect_extents = Vector2( 180, 1 )
 direction = Vector2( 0, 1 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 20.0
-initial_velocity_random = 0.6
-scale_amount = 0.1
-scale_amount_random = 0.1
+initial_velocity = 30.0
+initial_velocity_random = 0.4
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.05
+scale_amount_random = 0.2
+
+[node name="RewardThrow" parent="Background" instance=ExtResource( 13 )]
+position = Vector2( 243.631, 1101.9 )
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 layer = 10
@@ -137,8 +145,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="EffectLayer"]
-anims/damage = SubResource( 1 )
-anims/upgrade = SubResource( 2 )
+anims/damage = SubResource( 2 )
+anims/upgrade = SubResource( 3 )
 
 [node name="PanelLayer" type="CanvasLayer" parent="."]
 layer = 20
@@ -159,7 +167,7 @@ margin_left = -303.0
 margin_top = -123.0
 margin_right = 303.0
 margin_bottom = 123.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "You Lost"
 align = 1
 __meta__ = {
@@ -169,6 +177,7 @@ __meta__ = {
 [node name="Sound" type="AudioStreamPlayer2D" parent="GameoverLayer"]
 position = Vector2( 1080, 0 )
 stream = ExtResource( 11 )
+volume_db = 20.0
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]
 [connection signal="start_pressed" from="HomeLayer/Home" to="." method="_on_Home_start_pressed"]
