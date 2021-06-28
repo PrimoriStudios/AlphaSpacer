@@ -11,6 +11,9 @@ export var maxRotationRate: float = 10
 export var life: int = 20
 export var score: int = 40
 
+onready var damageSound := $DamageSound
+onready var animPlayer := $AnimationPlayer
+
 var speed: float = 0.0
 var rotationRate: float = 0
 var playerInArea: Player = null
@@ -44,6 +47,9 @@ func damage(amount: int):
 		
 		Signals.emit_signal("on_score_increment", score)
 		explode()
+	else:
+		damageSound.play()
+		animPlayer.play("damage")
 
 
 func explode():
