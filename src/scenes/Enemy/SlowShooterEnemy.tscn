@@ -8,7 +8,7 @@
 [node name="SlowShooterEnemy" instance=ExtResource( 3 )]
 script = ExtResource( 1 )
 verticalSpeed = 60.0
-health = 30
+health = 10
 fireRate = 2.0
 
 [node name="Sprite" parent="." index="0"]
@@ -16,7 +16,6 @@ scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
 
 [node name="VisibilityNotifier2D" parent="." index="1"]
-visible = false
 scale = Vector2( 4.06764, 2.19264 )
 
 [node name="LeftGun" type="Node2D" parent="FiringPositions" index="0"]

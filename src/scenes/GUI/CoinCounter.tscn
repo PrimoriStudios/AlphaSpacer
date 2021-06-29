@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/fonts/Dosis-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/textures/Coin.png" type="Texture" id=2]
@@ -16,6 +16,23 @@ size = 64
 extra_spacing_top = -18
 extra_spacing_bottom = -15
 font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "scale"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("MarginContainer/HBoxContainer/Value:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
 
 [node name="CoinCounter" type="PanelContainer"]
 margin_right = 192.0
@@ -55,5 +72,9 @@ margin_left = 126.0
 margin_top = 7.0
 margin_right = 162.0
 margin_bottom = 56.0
+rect_pivot_offset = Vector2( 18, 24.5 )
 custom_fonts/font = SubResource( 2 )
 text = "0"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/scale = SubResource( 3 )

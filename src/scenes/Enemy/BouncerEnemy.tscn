@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/scenes/Enemy/SlowShooterEnemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/Enemy/BouncerEnemy.gd" type="Script" id=2]
-[ext_resource path="res://assets/sounds/player_bullet_sound.wav" type="AudioStream" id=3]
 
 [node name="BouncerEnemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+health = 7
 horizontalSpeed = 80.0
 
 [node name="LeftGun" parent="FiringPositions" index="0"]
@@ -16,6 +16,3 @@ position = Vector2( 15, 82 )
 
 [node name="CollisionPolygon2D" parent="." index="3"]
 polygon = PoolVector2Array( 0.319122, -72.9858, 16.601, -57.1759, 16.365, -42.5459, 24.6239, -31.2194, 39.2539, -75.1095, 56.2437, -29.5676, 22.5002, 34.8518, 0.791061, 49.9538, -21.8619, 34.8518, -55.8414, -27.4439, -38.3797, -75.1095, -24.9295, -29.8036, -15.9627, -42.3099, -15.7267, -58.1198 )
-
-[node name="BulletSound" parent="." index="5"]
-stream = ExtResource( 3 )

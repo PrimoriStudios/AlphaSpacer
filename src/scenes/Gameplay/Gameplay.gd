@@ -2,6 +2,7 @@ extends Node
 
 var player := preload("res://src/scenes/Player/Player.tscn")
 var pFiler := preload("res://src/utils/Filer.gd")
+var pRewardThrow := preload("res://src/scenes/Reward/RewardThrow.tscn")
 
 onready var home := $HomeLayer/Home
 onready var bestScore := $HomeLayer/Home/Body/BestScore
@@ -20,8 +21,10 @@ var filer: Filer
 var playerInstance: Player
 var defGameState = {
 	"Score": 0,
-	"Coins": 0
+	"Coins": 0,
+	"Gems": 0
 }
+var thrower
 
 func _ready() -> void:
 	get_tree().set_quit_on_go_back(false)
@@ -74,6 +77,9 @@ func showHome():
 	
 	if lastScore != 0:
 		scoreValue.text = str(lastScore)
+		home.setCoins(data["Coins"])
+		home.setGems(data["Gems"])
+		
 		if not bestScore.visible:
 			bestScore.visible = true
 	
@@ -89,7 +95,8 @@ func saveState() -> void:
 	
 	filer.save({
 		"Score": cScore,
-		"Coins": data["Coins"] + hud.coins
+		"Coins": data["Coins"] + hud.coins,
+		"Gems": data["Gems"] + hud.gems
 	})
 
 

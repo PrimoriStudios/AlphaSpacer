@@ -3,5 +3,4 @@
 [ext_resource path="res://src/scenes/Reward/RewardThrow.gd" type="Script" id=1]
 
 [node name="RewardThrow" type="Node2D"]
-position = Vector2( 90.7692, 109.457 )
 script = ExtResource( 1 )

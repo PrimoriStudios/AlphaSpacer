@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://src/scenes/Panels/ContinuePanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/sounds/gameover-sound.wav" type="AudioStream" id=11]
 [ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://src/scenes/Reward/RewardThrow.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -87,9 +86,6 @@ angle = 180.0
 angle_random = 1.0
 scale_amount = 0.05
 scale_amount_random = 0.2
-
-[node name="RewardThrow" parent="Background" instance=ExtResource( 13 )]
-position = Vector2( 243.631, 1101.9 )
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 layer = 10

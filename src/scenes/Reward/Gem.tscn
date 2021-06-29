@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/scenes/Reward/Coin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/Gem.png" type="Texture" id=2]
+[ext_resource path="res://src/scenes/Reward/Gem.gd" type="Script" id=3]
+
+[node name="Gem" instance=ExtResource( 1 )]
+angular_damp = 0.0
+script = ExtResource( 3 )
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 2 )

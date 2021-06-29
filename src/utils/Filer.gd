@@ -1,19 +1,19 @@
 class_name Filer
 
 var filePath
+var file: File
 
-func _init(path: String, default = null) -> void:
+func _init(path: String, default: Dictionary) -> void:
 	filePath = path
 	
-	var file = File.new()
+	file = File.new()
 	if not file.file_exists(path) and not default == null:
-		file.open(path, File.WRITE_READ)
+		file.open(path, File.WRITE)
 		file.store_var(default)
-		file.flush()
+		file.close()
 
 
-func read():
-	var file = File.new()
+func read() -> Dictionary:
 	file.open(filePath, File.READ)
 	var data = file.get_var()
 	file.close()
@@ -22,7 +22,6 @@ func read():
 
 
 func save(value) -> void:
-	var file = File.new()
 	file.open(filePath, File.WRITE)
 	file.store_var(value)
 	file.close()

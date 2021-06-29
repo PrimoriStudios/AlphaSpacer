@@ -15,6 +15,7 @@ onready var explosionSound := $ExplosionSound
 onready var collision := $CollisionPolygon2D
 onready var anims := $AnimationPlayer
 onready var upgradeSound := $UpgradeSound
+onready var rewardSound := $RewardSound
 
 export var speed: float = 100.0
 export var loadingSpeed: float = 300
@@ -161,3 +162,9 @@ func _on_InvincibilityTimer_timeout():
 
 func emitLifeChanged():
 	Signals.emit_signal("on_player_life_changed", life, remainingLife)
+
+
+func _on_Player_body_entered(body):
+	if (body is Coin or body is Gem) and not died:
+		body.reward()
+		rewardSound.play()

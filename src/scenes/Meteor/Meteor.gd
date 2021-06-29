@@ -2,6 +2,9 @@ extends Area2D
 
 class_name Meteor
 
+var pExplosion := preload("res://src/scenes/Effects/Explosion.tscn")
+var pFloatingScore := preload("res://src/scenes/Effects/FloatingScore.tscn")
+
 export var minSpeed: float = 10
 export var maxSpeed: float = 20
 export var minRotationRate: float = -10
@@ -44,10 +47,24 @@ func damage(amount: int):
 		explode()
 	else:
 		animPlayer.play("damage")
+		if not damageSound.is_playing():
+			damageSound.stop()
+		
 		damageSound.play()
 
 
 func explode():
+	var effect := pExplosion.instance()
+	var fScore := pFloatingScore.instance()
+	var cScene = get_tree().current_scene
+	
+	effect.global_position = global_position
+	fScore.global_position = global_position
+	fScore.value = score
+	
+	cScene.add_child(effect)
+	cScene.add_child(fScore)
+	
 	visible = false
 	$ExplosionSound.play()
 	add_to_group("dead")
