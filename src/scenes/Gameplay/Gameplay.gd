@@ -1,6 +1,12 @@
 extends Node
 
-var player := preload("res://src/scenes/Player/Player.tscn")
+var pSkins := {
+	"Default": preload("res://src/scenes/Player/Player.tscn"),
+	"F35": preload("res://src/scenes/Player/F35.tscn"),
+	"F35-U": preload("res://src/scenes/Player/F35_U.tscn"),
+	"AK-1": preload("res://src/scenes/Player/AK_1.tscn")
+}
+
 var pFiler := preload("res://src/utils/Filer.gd")
 var pRewardThrow := preload("res://src/scenes/Reward/RewardThrow.tscn")
 
@@ -18,13 +24,9 @@ onready var pausePanel := $PauseLayer/Pause
 export var saveGamePath: String
 
 var filer: Filer
-var playerInstance: Player
-var defGameState = {
-	"Score": 0,
-	"Coins": 0,
-	"Gems": 0
-}
+var player: Player
 var thrower
+var options: Dictionary
 
 func _ready() -> void:
 	get_tree().set_quit_on_go_back(false)
@@ -35,7 +37,21 @@ func _ready() -> void:
 	Signals.connect("on_continue_cancelled", self, "_on_continue_cancelled")
 	Signals.connect("on_player_died", self, "_on_player_died")
 	
-	filer = pFiler.new(saveGamePath, defGameState)
+	Directory.new().remove(saveGamePath)
+	filer = pFiler.new(saveGamePath)
+	if not filer.exists():
+		options = {
+			"Score": 0,
+			"Coins": 0,
+			"Gems": 0,
+			"PlayerSkin": "F35-U",
+			"Skins": [ "Default" ]
+		}
+		filer.save(options)
+	else:
+		options = filer.read()
+	
+	showHome()
 
 
 func _notification(what) -> void:
@@ -55,6 +71,7 @@ func _on_pause_clicked():
 func onBackPressed() -> void:
 	Signals.emit_signal("on_go_back_requested")
 
+
 func _on_Home_start_pressed() -> void:
 	start()
 
@@ -64,12 +81,13 @@ func start() -> void:
 	hud.visible = true
 	starsParticle.set_emitting(true)
 	spawner.start()
-	playerInstance = player.instance()
-	add_child(playerInstance)
+	player = pSkins[options["PlayerSkin"]].instance()
+	add_child(player)
 
 
 func stop() -> void:
 	showHome()
+
 
 func showHome():
 	var data = filer.read()
@@ -87,24 +105,22 @@ func showHome():
 
 
 func saveState() -> void:
-	var data = filer.read()
-	var cScore = data["Score"]
-	
+	var cScore = options["Score"]
 	if hud.score > cScore:
 		cScore = hud.score
 	
-	filer.save({
-		"Score": cScore,
-		"Coins": data["Coins"] + hud.coins,
-		"Gems": data["Gems"] + hud.gems
-	})
+	options["Score"] = cScore
+	options["Coins"] = options["Coins"] + hud.coins
+	options["Gems"] = options["Gems"] + hud.gems
+	
+	filer.save(options)
 
 
 func reset() -> void:
 	starsParticle.set_emitting(false)
 	spawner.reset()
-	playerInstance.queue_free()
-	playerInstance = null
+	player.queue_free()
+	player = null
 	
 	var enemies = get_tree().get_nodes_in_group("damageable")
 	for enemy in enemies:
@@ -137,7 +153,7 @@ func _on_restart_pressed() -> void:
 
 
 func _on_continue_requested() -> void:
-	playerInstance.restore()
+	player.restore()
 
 
 func _on_continue_cancelled() -> void:

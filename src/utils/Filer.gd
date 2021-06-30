@@ -3,14 +3,13 @@ class_name Filer
 var filePath
 var file: File
 
-func _init(path: String, default: Dictionary) -> void:
+func _init(path: String) -> void:
 	filePath = path
-	
 	file = File.new()
-	if not file.file_exists(path) and not default == null:
-		file.open(path, File.WRITE)
-		file.store_var(default)
-		file.close()
+
+
+func exists() -> bool:
+	return file.file_exists(filePath)
 
 
 func read() -> Dictionary:
@@ -19,6 +18,14 @@ func read() -> Dictionary:
 	file.close()
 	
 	return data
+
+
+func readStr() -> String:
+	file.open(filePath, File.READ)
+	var value = file.get_as_text()
+	file.close()
+	
+	return value
 
 
 func save(value) -> void:

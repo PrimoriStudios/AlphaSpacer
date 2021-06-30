@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Starting-Spaceship.png-2ad8f84614d41240214530c9da266ac9.stex"
+path="res://.import/AK-1.skin.png-c543f631c82a84767efad5c977f34524.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Starting-Spaceship.png"
-dest_files=[ "res://.import/Starting-Spaceship.png-2ad8f84614d41240214530c9da266ac9.stex" ]
+source_file="res://assets/textures/AK-1.skin.png"
+dest_files=[ "res://.import/AK-1.skin.png-c543f631c82a84767efad5c977f34524.stex" ]
 
 [params]
 

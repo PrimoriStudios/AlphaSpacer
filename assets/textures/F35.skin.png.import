@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/life-under.png-106d10a8d747c294ace0a4f577423f21.stex"
+path="res://.import/F35.skin.png-8bef00b64d90a1b9af4ef03b2ecacf55.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/life-under.png"
-dest_files=[ "res://.import/life-under.png-106d10a8d747c294ace0a4f577423f21.stex" ]
+source_file="res://assets/textures/F35.skin.png"
+dest_files=[ "res://.import/F35.skin.png-8bef00b64d90a1b9af4ef03b2ecacf55.stex" ]
 
 [params]
 

@@ -2,7 +2,7 @@ extends Area2D
 
 class_name Player
 
-var plBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
+var pBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
 var pBulletEffect := preload("res://src/scenes/Bullet/BulletEffect.tscn")
 
 onready var firePoses := $FiringPositions
@@ -71,7 +71,7 @@ func _process(_delta):
 		bulletSound.play()
 		
 		for child in firePoses.get_children():
-			var bullet := plBullet.instance()
+			var bullet := pBullet.instance()
 			var effect := pBulletEffect.instance()
 			var cScene := get_tree().current_scene
 			

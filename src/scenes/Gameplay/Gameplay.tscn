@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
@@ -49,6 +49,8 @@ tracks/0/keys = {
 [sub_resource type="DynamicFont" id=4]
 size = 156
 font_data = ExtResource( 12 )
+
+[sub_resource type="PhysicsMaterial" id=5]
 
 [node name="Gameplay" type="Node"]
 script = ExtResource( 7 )
@@ -174,6 +176,12 @@ __meta__ = {
 position = Vector2( 1080, 0 )
 stream = ExtResource( 11 )
 volume_db = 20.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource( 5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 1080, 0, 0, 0, 0, 1920, -64, 1920, -64, -64, 1152, -64, 1152, 1920, 1080, 1920 )
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]
 [connection signal="start_pressed" from="HomeLayer/Home" to="." method="_on_Home_start_pressed"]
