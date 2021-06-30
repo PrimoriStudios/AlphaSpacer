@@ -7,6 +7,7 @@
 [node name="FastEnemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 verticalSpeed = 100.0
+scores = 80
 
 [node name="Sprite" parent="." index="0"]
 scale = Vector2( 0.75, 0.75 )

@@ -181,6 +181,7 @@ volume_db = 20.0
 physics_material_override = SubResource( 5 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
 polygon = PoolVector2Array( 1080, 0, 0, 0, 0, 1920, -64, 1920, -64, -64, 1152, -64, 1152, 1920, 1080, 1920 )
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]

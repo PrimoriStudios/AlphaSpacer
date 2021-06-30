@@ -37,14 +37,13 @@ func _ready() -> void:
 	Signals.connect("on_continue_cancelled", self, "_on_continue_cancelled")
 	Signals.connect("on_player_died", self, "_on_player_died")
 	
-	Directory.new().remove(saveGamePath)
 	filer = pFiler.new(saveGamePath)
 	if not filer.exists():
 		options = {
 			"Score": 0,
 			"Coins": 0,
 			"Gems": 0,
-			"PlayerSkin": "F35-U",
+			"PlayerSkin": "Default",
 			"Skins": [ "Default" ]
 		}
 		filer.save(options)

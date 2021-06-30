@@ -34,6 +34,8 @@ minSpeed = 400.0
 maxSpeed = 700.0
 minRotationRate = -40.0
 maxRotationRate = 40.0
+life = 6
+score = 45
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

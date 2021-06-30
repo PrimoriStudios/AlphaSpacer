@@ -9,6 +9,7 @@
 script = ExtResource( 1 )
 verticalSpeed = 60.0
 health = 10
+scores = 90
 fireRate = 2.0
 
 [node name="Sprite" parent="." index="0"]
