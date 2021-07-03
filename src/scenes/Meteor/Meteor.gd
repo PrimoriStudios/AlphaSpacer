@@ -2,6 +2,7 @@ extends Area2D
 
 class_name Meteor
 
+var pSheet := preload("res://src/scenes/Reward/Sheet.tscn")
 var pExplosion := preload("res://src/scenes/Effects/Explosion.tscn")
 var pFloatingScore := preload("res://src/scenes/Effects/FloatingScore.tscn")
 
@@ -54,15 +55,20 @@ func damage(amount: int):
 
 
 func explode():
-	var effect := pExplosion.instance()
-	var fScore := pFloatingScore.instance()
 	var cScene = get_tree().current_scene
 	
+	var effect := pExplosion.instance()
 	effect.global_position = global_position
+	cScene.add_child(effect)
+	 
+	if randf() <= 0.25:
+		var sheet  := pSheet.instance()
+		sheet.global_position = global_position
+		cScene.add_child(sheet)
+	
+	var fScore := pFloatingScore.instance()
 	fScore.global_position = global_position
 	fScore.value = score
-	
-	cScene.add_child(effect)
 	cScene.add_child(fScore)
 	
 	visible = false

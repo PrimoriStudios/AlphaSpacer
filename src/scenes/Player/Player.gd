@@ -5,7 +5,6 @@ class_name Player
 var pBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
 var pBulletEffect := preload("res://src/scenes/Bullet/BulletEffect.tscn")
 
-onready var firePoses := $FiringPositions
 onready var fireDelayTimer := $FireDelayTimer
 onready var invincibilityTimer := $InvincibilityTimer
 onready var shildSprite := $Shield
@@ -22,6 +21,8 @@ export var loadingSpeed: float = 300
 export var fireDelay: float = 0.1
 export var life: int = 3
 export var damageInvincibilityTime : float = 2.0
+export var shieldTime: float = 10.0
+export(int, 1, 3) var initialGunLevel: int = 1
 
 var vel := Vector2(0, 0)
 var remainingLife: int = life
@@ -34,6 +35,8 @@ var died: bool = false
 var loading: bool = true
 var effectAnims
 var cam
+var gunsLevel: int
+var guns
 
 func _ready():
 	startingPos = get_parent().get_node("StartingPos").position
@@ -47,6 +50,8 @@ func _ready():
 	shildSprite.visible = false
 	emitLifeChanged()
 	fireDelayTimer.start(fireDelay)
+	gunsLevel = initialGunLevel
+	configureGuns()
 
 
 func _input(event):
@@ -70,7 +75,7 @@ func _process(_delta):
 		fireDelayTimer.start(fireDelay)
 		bulletSound.play()
 		
-		for child in firePoses.get_children():
+		for child in guns:
 			var bullet := pBullet.instance()
 			var effect := pBulletEffect.instance()
 			var cScene := get_tree().current_scene
@@ -80,6 +85,22 @@ func _process(_delta):
 			
 			cScene.add_child(bullet)
 			cScene.add_child(effect)
+
+
+func configureGuns() -> void:
+	if gunsLevel == 1:
+		guns = [ $FiringPositions/MiddleGun ]
+	elif gunsLevel == 2:
+		guns = [
+			$FiringPositions/LeftGun,
+			$FiringPositions/RightGun
+		]
+	elif gunsLevel == 3:
+		guns = [
+			$FiringPositions/LeftGun,
+			$FiringPositions/MiddleGun,
+			$FiringPositions/RightGun
+		]
 
 
 func _physics_process(delta):
@@ -152,8 +173,35 @@ func restore():
 	died = false
 	collision.disabled = false
 	visible = true
+	remainingLife += 1
+	emitLifeChanged()
 	effectAnims.play("upgrade")
 	upgradeSound.play()
+
+
+func catchSheet(type: String) -> void:
+	var playSound := true
+	
+	if type == "health":
+		if remainingLife < life:
+			remainingLife += 1
+			emitLifeChanged()
+	
+	elif type == "power":
+		if gunsLevel < 3:
+			gunsLevel += 1
+			configureGuns()
+	
+	elif type == "shield":
+		invincibilityTimer.start(shieldTime)
+		shildSprite.visible = true
+	
+	else:
+		playSound = false
+	
+	if playSound:
+		effectAnims.play("upgrade")
+		upgradeSound.play()
 
 
 func _on_InvincibilityTimer_timeout():
