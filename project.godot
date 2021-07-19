@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AdMob",
+"language": "GDScript",
+"path": "res://admob-lib/admob.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Coin",
+"language": "GDScript",
+"path": "res://src/scenes/Reward/Coin.gd"
+}, {
 "base": "Area2D",
 "class": "Enemy",
 "language": "GDScript",
@@ -18,6 +28,16 @@ _global_script_classes=[ {
 "class": "Filer",
 "language": "GDScript",
 "path": "res://src/utils/Filer.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Gem",
+"language": "GDScript",
+"path": "res://src/scenes/Reward/Gem.gd"
+}, {
+"base": "AudioStreamPlayer2D",
+"class": "LayeredAudioStreamPlayer2D",
+"language": "GDScript",
+"path": "res://src/scenes/Nodes/LayeredAudioStreamPlayer2D.gd"
 }, {
 "base": "Area2D",
 "class": "Meteor",
@@ -35,8 +55,12 @@ _global_script_classes=[ {
 "path": "res://src/scenes/Enemy/SlowShooterEnemy.gd"
 } ]
 _global_script_class_icons={
+"AdMob": "res://admob-lib/icon.png",
+"Coin": "",
 "Enemy": "",
 "Filer": "",
+"Gem": "",
+"LayeredAudioStreamPlayer2D": "",
 "Meteor": "",
 "Player": "",
 "SlowShooterEnemy": ""

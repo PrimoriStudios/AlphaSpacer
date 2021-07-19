@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scenes/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/F35-U.skin.png" type="Texture" id=2]
+
+[node name="F35_U" instance=ExtResource( 1 )]
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2( -1, 0 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" parent="." index="1"]
+position = Vector2( -1, 0 )
+polygon = PoolVector2Array( 0.913261, -98.9053, 5.22089, -92.3502, 7.84293, -83.5476, 14.5853, -41.7823, 19.8294, -47.2137, 90.4371, 70.5907, 90.6244, 97.7475, 55.7887, 88.5704, 11.9633, 99.0585, 9.34123, 71.9017, 7.28106, 79.206, -4.89268, 79.3932, -6.76557, 72.2763, -10.1368, 98.8712, -54.5241, 88.3831, -87.8614, 96.8111, -88.236, 70.2161, -17.441, -46.6518, -12.7588, -41.2205, -5.64184, -83.1731, -3.58167, -91.9756 )
+
+[node name="LeftGun" parent="FiringPositions" index="0"]
+position = Vector2( -40, -15 )
+
+[node name="RightGun" parent="FiringPositions" index="1"]
+position = Vector2( 40, -15 )
+
+[node name="MiddleGun" parent="FiringPositions" index="2"]
+position = Vector2( 0, -100 )

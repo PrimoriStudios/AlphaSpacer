@@ -1,7 +1,10 @@
 extends Area2D
+
 class_name Meteor
 
-var pMeteorEffect := preload("res://src/scenes/Meteor/MeteorEffect.tscn")
+var pSheet := preload("res://src/scenes/Reward/Sheet.tscn")
+var pExplosion := preload("res://src/scenes/Effects/Explosion.tscn")
+var pFloatingScore := preload("res://src/scenes/Effects/FloatingScore.tscn")
 
 export var minSpeed: float = 10
 export var maxSpeed: float = 20
@@ -10,6 +13,9 @@ export var maxRotationRate: float = 10
 
 export var life: int = 20
 export var score: int = 40
+
+onready var damageSound := $DamageSound
+onready var animPlayer := $AnimationPlayer
 
 var speed: float = 0.0
 var rotationRate: float = 0
@@ -38,15 +44,33 @@ func damage(amount: int):
 	
 	life -= amount
 	if life <= 0:
-		var effect :=pMeteorEffect.instance()
-		effect.position = position
-		get_parent().add_child(effect)
-		
 		Signals.emit_signal("on_score_increment", score)
 		explode()
+	else:
+		animPlayer.play("damage")
+		if not damageSound.is_playing():
+			damageSound.stop()
+		
+		damageSound.play()
 
 
 func explode():
+	var cScene = get_tree().current_scene
+	
+	var effect := pExplosion.instance()
+	effect.global_position = global_position
+	cScene.add_child(effect)
+	 
+	if randf() <= 0.25:
+		var sheet  := pSheet.instance()
+		sheet.global_position = global_position
+		cScene.add_child(sheet)
+	
+	var fScore := pFloatingScore.instance()
+	fScore.global_position = global_position
+	fScore.value = score
+	cScene.add_child(fScore)
+	
 	visible = false
 	$ExplosionSound.play()
 	add_to_group("dead")

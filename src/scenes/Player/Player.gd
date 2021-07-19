@@ -2,19 +2,27 @@ extends Area2D
 
 class_name Player
 
-var plBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
+var pBullet := preload("res://src/scenes/Bullet/Bullet.tscn")
+var pBulletEffect := preload("res://src/scenes/Bullet/BulletEffect.tscn")
 
-onready var firePoses := $FiringPositions
 onready var fireDelayTimer := $FireDelayTimer
 onready var invincibilityTimer := $InvincibilityTimer
 onready var shildSprite := $Shield
+onready var hitSound := $HitSound
 onready var bulletSound := $BulletSound
+onready var explosionSound := $ExplosionSound
+onready var collision := $CollisionPolygon2D
+onready var anims := $AnimationPlayer
+onready var upgradeSound := $UpgradeSound
+onready var rewardSound := $RewardSound
 
 export var speed: float = 100.0
 export var loadingSpeed: float = 300
 export var fireDelay: float = 0.1
 export var life: int = 3
 export var damageInvincibilityTime : float = 2.0
+export var shieldTime: float = 10.0
+export(int, 1, 3) var initialGunLevel: int = 1
 
 var vel := Vector2(0, 0)
 var remainingLife: int = life
@@ -23,17 +31,27 @@ var deltaX: float
 var deltaY: float
 var startingPos: Vector2
 
-var loading = true
-
+var died: bool = false
+var loading: bool = true
+var effectAnims
+var cam
+var gunsLevel: int
+var guns
 
 func _ready():
 	startingPos = get_parent().get_node("StartingPos").position
 	position.x = startingPos.x
 	position.y = get_viewport_rect().end.y
 	
+	var root = get_tree().get_root()
+	effectAnims = root.get_node("Gameplay/EffectLayer/AnimationPlayer")
+	cam = root.get_node("Gameplay/Cam")
+	
 	shildSprite.visible = false
 	emitLifeChanged()
 	fireDelayTimer.start(fireDelay)
+	gunsLevel = initialGunLevel
+	configureGuns()
 
 
 func _input(event):
@@ -49,7 +67,7 @@ func _input(event):
 
 
 func _process(_delta):
-	if loading:
+	if loading or died:
 		return
 	
 	# Check if shooting
@@ -57,13 +75,37 @@ func _process(_delta):
 		fireDelayTimer.start(fireDelay)
 		bulletSound.play()
 		
-		for child in firePoses.get_children():
-			var bullet := plBullet.instance()
+		for child in guns:
+			var bullet := pBullet.instance()
+			var effect := pBulletEffect.instance()
+			var cScene := get_tree().current_scene
+			
 			bullet.global_position = child.global_position
-			get_tree().current_scene.add_child(bullet)
+			effect.global_position = child.global_position
+			
+			cScene.add_child(bullet)
+			cScene.add_child(effect)
+
+
+func configureGuns() -> void:
+	if gunsLevel == 1:
+		guns = [ $FiringPositions/MiddleGun ]
+	elif gunsLevel == 2:
+		guns = [
+			$FiringPositions/LeftGun,
+			$FiringPositions/RightGun
+		]
+	elif gunsLevel == 3:
+		guns = [
+			$FiringPositions/LeftGun,
+			$FiringPositions/MiddleGun,
+			$FiringPositions/RightGun
+		]
 
 
 func _physics_process(delta):
+	if died: return
+	
 	if loading:
 		onLoading(delta)
 		return
@@ -100,7 +142,7 @@ func onLoading(delta):
 
 
 func damage(amount: int):
-	if !invincibilityTimer.is_stopped():
+	if !invincibilityTimer.is_stopped() or died:
 		return
 		
 	invincibilityTimer.start(damageInvincibilityTime)
@@ -109,11 +151,57 @@ func damage(amount: int):
 	remainingLife -= amount
 	emitLifeChanged()
 	
-	var cam := get_tree().current_scene.find_node("Cam", true, false)
 	cam.shake(20)
+	effectAnims.play("damage")
 	
 	if remainingLife <= 0:
-		queue_free()
+		die()
+	else:
+		hitSound.play()
+		anims.play("damage")
+
+
+func die():
+	died = true
+	collision.disabled = true
+	visible = false
+	explosionSound.play()
+	Signals.emit_signal("on_player_died")
+
+
+func restore():
+	died = false
+	collision.disabled = false
+	visible = true
+	remainingLife += 1
+	emitLifeChanged()
+	effectAnims.play("upgrade")
+	upgradeSound.play()
+
+
+func catchSheet(type: String) -> void:
+	var playSound := true
+	
+	if type == "health":
+		if remainingLife < life:
+			remainingLife += 1
+			emitLifeChanged()
+	
+	elif type == "power":
+		if gunsLevel < 3:
+			gunsLevel += 1
+			configureGuns()
+	
+	elif type == "shield":
+		invincibilityTimer.start(shieldTime)
+		shildSprite.visible = true
+	
+	else:
+		playSound = false
+	
+	if playSound:
+		effectAnims.play("upgrade")
+		upgradeSound.play()
 
 
 func _on_InvincibilityTimer_timeout():
@@ -122,3 +210,9 @@ func _on_InvincibilityTimer_timeout():
 
 func emitLifeChanged():
 	Signals.emit_signal("on_player_life_changed", life, remainingLife)
+
+
+func _on_Player_body_entered(body):
+	if (body is Coin or body is Gem) and not died:
+		body.reward()
+		rewardSound.play()

@@ -1,16 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/scenes/Enemy/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/Enemy/FastEnemy.gd" type="Script" id=2]
+[ext_resource path="res://assets/textures/FastEnemy.png" type="Texture" id=3]
 
 [node name="FastEnemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 verticalSpeed = 100.0
-health = 15
-rotationRate = 50
+scores = 80
 
 [node name="Sprite" parent="." index="0"]
 scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 3 )
 
-[node name="VisibilityNotifier2D" parent="." index="2"]
-scale = Vector2( 4.94264, 4.94264 )
+[node name="VisibilityNotifier2D" parent="." index="1"]
+scale = Vector2( 9.21413, 9.21413 )
+
+[node name="CollisionPolygon2D" parent="." index="3"]
+polygon = PoolVector2Array( -15.3215, -46.6511, -30.7011, -38.1659, -42.5451, -24.3773, -47.3181, -10.2351, -58.7588, -6.07495, -74.1764, -4.98645, -90.1454, -6.33982, -82.067, 1.87102, -71.4723, 8.75753, -58.229, 13.3927, -46.3101, 14.8494, -38.0992, 29.9468, -25.9154, 41.2036, -9.7586, 47.1631, -6.05049, 59.4793, -4.59373, 72.9875, -6.18293, 90.0713, 2.95494, 81.1983, 9.17928, 70.7361, 13.1523, 58.9496, 14.8739, 46.3685, 31.2956, 37.4955, 41.7578, 24.7819, 47.5848, 10.2143, 58.5767, 5.97643, 72.2173, 4.78454, 90.6255, 6.10887, 81.2228, -2.76414, 70.3633, -9.25335, 58.3119, -13.2263, 46.5253, -14.5507, 39.1091, -29.5156, 24.8064, -42.3616, 9.70901, -47.6589, 5.77168, -60.9851, 5.43797, -76.3358, 6.53064, -90.4347, -2.4748, -81.6941, -9.49374, -69.7751, -13.4667, -57.0616 )

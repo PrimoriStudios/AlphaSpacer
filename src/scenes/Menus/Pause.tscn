@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/scenes/Menus/Pause.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=2]
@@ -6,16 +6,25 @@
 [ext_resource path="res://assets/textures/restart_btn_green.png" type="Texture" id=4]
 [ext_resource path="res://assets/textures/home_btn_green.png" type="Texture" id=5]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.745098 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="DynamicFont" id=2]
 size = 72
 font_data = ExtResource( 2 )
+
+[sub_resource type="CanvasItemMaterial" id=3]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=4]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=5]
+blend_mode = 1
 
 [node name="Pause" type="Control"]
 pause_mode = 2
@@ -24,9 +33,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -410.0
-margin_top = -270.0
+margin_top = -200.0
 margin_right = 410.0
-margin_bottom = 270.0
+margin_bottom = 200.0
 mouse_filter = 1
 script = ExtResource( 1 )
 __meta__ = {
@@ -36,7 +45,7 @@ __meta__ = {
 [node name="Background" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,12 +85,14 @@ __meta__ = {
 }
 
 [node name="Home" type="TextureButton" parent="Background/Container/HBoxContainer"]
+material = SubResource( 3 )
 margin_left = 114.0
 margin_right = 258.0
 margin_bottom = 144.0
 texture_normal = ExtResource( 5 )
 
 [node name="Resume" type="TextureButton" parent="Background/Container/HBoxContainer"]
+material = SubResource( 4 )
 margin_left = 298.0
 margin_right = 442.0
 margin_bottom = 144.0
@@ -93,6 +104,7 @@ __meta__ = {
 }
 
 [node name="Restart" type="TextureButton" parent="Background/Container/HBoxContainer"]
+material = SubResource( 5 )
 margin_left = 482.0
 margin_right = 626.0
 margin_bottom = 144.0
