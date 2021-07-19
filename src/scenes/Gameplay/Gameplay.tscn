@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/textures/damage-effect.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Menus/Pause.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://src/scenes/Panels/ContinuePanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/sounds/gameover-sound.wav" type="AudioStream" id=11]
 [ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://admob-lib/admob.gd" type="Script" id=13]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -184,6 +185,23 @@ physics_material_override = SubResource( 5 )
 visible = false
 polygon = PoolVector2Array( 1080, 0, 0, 0, 0, 1920, -64, 1920, -64, -64, 1152, -64, 1152, 1920, 1080, 1920 )
 
+[node name="AdMob" type="Node" parent="."]
+script = ExtResource( 13 )
+banner_on_top = false
+banner_id = "ca-app-pub-3940256099942544/6300978111"
+interstitial_id = "ca-app-pub-3940256099942544/8691691433"
+rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+child_directed = true
+
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_SpawnTimer_timeout"]
 [connection signal="start_pressed" from="HomeLayer/Home" to="." method="_on_Home_start_pressed"]
 [connection signal="finished" from="GameoverLayer/Sound" to="." method="_on_GamoverSound_finished"]
+[connection signal="banner_failed_to_load" from="AdMob" to="." method="_on_AdMob_banner_failed_to_load"]
+[connection signal="banner_loaded" from="AdMob" to="." method="_on_AdMob_banner_loaded"]
+[connection signal="interstitial_closed" from="AdMob" to="." method="_on_AdMob_interstitial_closed"]
+[connection signal="interstitial_failed_to_load" from="AdMob" to="." method="_on_AdMob_interstitial_failed_to_load"]
+[connection signal="interstitial_loaded" from="AdMob" to="." method="_on_AdMob_interstitial_loaded"]
+[connection signal="rewarded" from="AdMob" to="." method="_on_AdMob_rewarded"]
+[connection signal="rewarded_video_closed" from="AdMob" to="." method="_on_AdMob_rewarded_video_closed"]
+[connection signal="rewarded_video_failed_to_load" from="AdMob" to="." method="_on_AdMob_rewarded_video_failed_to_load"]
+[connection signal="rewarded_video_loaded" from="AdMob" to="." method="_on_AdMob_rewarded_video_loaded"]

@@ -2,8 +2,8 @@ extends VBoxContainer
 
 signal start_pressed
 
-onready var coinCounter := $MarginContainer/Header/CoinCounter
-onready var gemCounter := $MarginContainer/Header/GemCounter
+onready var coinCounter := $Header/Counters/CoinCounter
+onready var gemCounter := $Header/Counters/GemCounter
 
 func _ready():
 	$Body.connect("gui_input", self, "gui_input")
@@ -20,3 +20,11 @@ func setCoins(value: int) -> void:
 
 func setGems(value: int) -> void:
 	gemCounter.setValue(value)
+
+
+func _on_ShopButton_pressed():
+	pass # Replace with function body.
+
+
+func _on_SettingsButton_pressed():
+	pass # Replace with function body.

@@ -2,9 +2,9 @@ extends Node
 
 var pSkins := {
 	"Default": preload("res://src/scenes/Player/Player.tscn"),
-	"F35": preload("res://src/scenes/Player/F35.tscn"),
 	"F35-U": preload("res://src/scenes/Player/F35_U.tscn"),
-	"AK-1": preload("res://src/scenes/Player/AK_1.tscn")
+	"AK-1": preload("res://src/scenes/Player/AK_1.tscn"),
+	"F35": preload("res://src/scenes/Player/F35.tscn")
 }
 
 var pFiler := preload("res://src/utils/Filer.gd")
@@ -20,6 +20,7 @@ onready var continuePanel := $PanelLayer/ContinuePanel
 onready var gameOverLabel := $GameoverLayer/Label
 onready var gameOverSound := $GameoverLayer/Sound
 onready var pausePanel := $PauseLayer/Pause
+onready var adMob := $AdMob
 
 export var saveGamePath: String
 
@@ -27,6 +28,11 @@ var filer: Filer
 var player: Player
 var thrower
 var options: Dictionary
+var rewarded: bool = false
+
+var bannerLoaded: bool = false
+var rewardLoaded: bool = false
+var intersLoaded: bool = false
 
 func _ready() -> void:
 	get_tree().set_quit_on_go_back(false)
@@ -50,6 +56,9 @@ func _ready() -> void:
 	else:
 		options = filer.read()
 	
+	adMob.load_banner()
+	adMob.show_banner()
+	
 	showHome()
 
 
@@ -60,7 +69,7 @@ func _notification(what) -> void:
 		onBackPressed()
 
 
-func _on_pause_clicked():
+func _on_pause_clicked() -> void:
 	if not continuePanel.visible:
 		var newPauseState = not get_tree().paused
 		get_tree().paused = newPauseState
@@ -85,10 +94,10 @@ func start() -> void:
 
 
 func stop() -> void:
-	showHome()
+	adMob.show_interstitial()
 
-
-func showHome():
+func showHome() -> void:
+	loadAds()
 	var data = filer.read()
 	var lastScore: int = data["Score"]
 	
@@ -101,6 +110,16 @@ func showHome():
 			bestScore.visible = true
 	
 	home.visible = true
+
+
+func loadAds() -> void:
+	if not rewardLoaded:
+		adMob.load_rewarded_video()
+	if not bannerLoaded:
+		adMob.load_banner()
+		adMob.show_banner()
+	if not intersLoaded:
+		adMob.load_interstitial()
 
 
 func saveState() -> void:
@@ -133,7 +152,7 @@ func reset() -> void:
 	hud.reset()
 
 
-func gameover():
+func gameover() -> void:
 	reset()
 	hud.visible = false
 	gameOverLabel.visible = true
@@ -152,7 +171,7 @@ func _on_restart_pressed() -> void:
 
 
 func _on_continue_requested() -> void:
-	player.restore()
+	adMob.show_rewarded_video()
 
 
 func _on_continue_cancelled() -> void:
@@ -163,6 +182,45 @@ func _on_player_died() -> void:
 	continuePanel.show()
 
 
-func _on_GamoverSound_finished():
+func _on_GamoverSound_finished() -> void:
 	gameOverLabel.visible = false
 	stop()
+
+
+func _on_AdMob_interstitial_loaded() -> void:
+	intersLoaded = true
+
+
+func _on_AdMob_interstitial_failed_to_load(error_code) -> void:
+	intersLoaded = false
+
+
+func _on_AdMob_interstitial_closed() -> void:
+	showHome()
+
+
+func _on_AdMob_rewarded_video_loaded() -> void:
+	rewardLoaded = true
+
+
+func _on_AdMob_rewarded_video_failed_to_load(error_code) -> void:
+	rewardLoaded = false
+
+
+func _on_AdMob_rewarded(currency, ammount) -> void:
+	rewarded = true
+
+
+func _on_AdMob_banner_loaded() -> void:
+	bannerLoaded = true
+
+
+func _on_AdMob_banner_failed_to_load(error_code) -> void:
+	bannerLoaded = false
+
+
+func _on_AdMob_rewarded_video_closed() -> void:
+	if rewarded:
+		player.restore()
+	
+	adMob.load_rewarded_video()
