@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/fonts/Baloo2-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/scenes/Shop/CoinsBeginnerPack.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/scenes/Shop/CoinsAdvancedPack.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/scenes/Shop/CoinsNormalPack.tscn" type="PackedScene" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0941176, 0.141176, 0.313726, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.365753, 0.405402, 0.550781, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
+font_data = ExtResource( 1 )
+
+[node name="Shop" type="ScrollContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 2.82849
+margin_bottom = 2.82849
+custom_styles/bg = SubResource( 1 )
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="MarginContainer" parent="."]
+margin_right = 1068.0
+margin_bottom = 1940.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 60
+custom_constants/margin_top = 60
+custom_constants/margin_left = 60
+custom_constants/margin_bottom = 60
+
+[node name="Body" type="VBoxContainer" parent="Container"]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 1008.0
+margin_bottom = 1880.0
+custom_constants/separation = 60
+
+[node name="CoinsTitle" type="PanelContainer" parent="Container/Body"]
+margin_right = 948.0
+margin_bottom = 102.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Container/Body/CoinsTitle"]
+margin_right = 948.0
+margin_bottom = 102.0
+custom_fonts/font = SubResource( 3 )
+text = "Coins"
+align = 1
+
+[node name="Row" type="HBoxContainer" parent="Container/Body"]
+margin_top = 162.0
+margin_right = 948.0
+margin_bottom = 820.0
+custom_constants/separation = 60
+
+[node name="CoinsBeginnerPack" parent="Container/Body/Row" instance=ExtResource( 2 )]
+margin_right = 444.0
+
+[node name="CoinsNormalPack" parent="Container/Body/Row" instance=ExtResource( 4 )]
+margin_left = 504.0
+margin_right = 948.0
+
+[node name="Row2" type="HBoxContainer" parent="Container/Body"]
+margin_top = 880.0
+margin_right = 948.0
+margin_bottom = 1538.0
+custom_constants/separation = 60
+
+[node name="CoinsAdvancedPack" parent="Container/Body/Row2" instance=ExtResource( 3 )]
+margin_right = 444.0
+
+[node name="CoinsAdvancedPack2" parent="Container/Body/Row2" instance=ExtResource( 3 )]
+margin_left = 504.0
+margin_right = 948.0
+
+[node name="Gems" type="PanelContainer" parent="Container/Body"]
+margin_top = 1598.0
+margin_right = 948.0
+margin_bottom = 1700.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Container/Body/Gems"]
+margin_right = 948.0
+margin_bottom = 102.0
+custom_fonts/font = SubResource( 3 )
+text = "Gems"
+align = 1
+
+[node name="Row3" type="HBoxContainer" parent="Container/Body"]
+margin_top = 1760.0
+margin_right = 948.0
+margin_bottom = 1760.0
+custom_constants/separation = 60
+
+[node name="Row4" type="HBoxContainer" parent="Container/Body"]
+margin_top = 1820.0
+margin_right = 948.0
+margin_bottom = 1820.0
+custom_constants/separation = 60

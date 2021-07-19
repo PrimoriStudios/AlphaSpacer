@@ -1,9 +1,9 @@
-extends VBoxContainer
+extends Control
 
 signal start_pressed
 
-onready var coinCounter := $Header/Counters/CoinCounter
-onready var gemCounter := $Header/Counters/GemCounter
+onready var coinCounter := $Layout/Header/Counters/CoinCounter
+onready var gemCounter := $Layout/Header/Counters/GemCounter
 
 func _ready():
 	$Body.connect("gui_input", self, "gui_input")
