@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/scenes/Home/Home.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/scenes/GUI/GemCounter.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/textures/cart.png" type="Texture" id=9]
 [ext_resource path="res://assets/textures/cogs.png" type="Texture" id=10]
+[ext_resource path="res://src/scenes/Shop/Shop.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 162
@@ -192,5 +193,17 @@ custom_fonts/font = SubResource( 6 )
 text = "Tap to start"
 align = 1
 
-[connection signal="pressed" from="Layout/Header/Options/ShopButton" to="Layout" method="_on_ShopButton_pressed"]
+[node name="BannerPadding" type="Control" parent="Layout"]
+visible = false
+margin_top = 1800.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+
+[node name="ShopLayer" type="CanvasLayer" parent="."]
+layer = 30
+
+[node name="Shop" parent="ShopLayer" instance=ExtResource( 11 )]
+visible = false
+
+[connection signal="pressed" from="Layout/Header/Options/ShopButton" to="." method="_on_ShopButton_pressed"]
 [connection signal="pressed" from="Layout/Header/Options/SettingsButton" to="Layout" method="_on_SettingsButton_pressed"]

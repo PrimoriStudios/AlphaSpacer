@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/scenes/Shop/ShopCard.tscn" type="PackedScene" id=1]
+
+[node name="CoinsFreePack" instance=ExtResource( 1 )]
+id = "CoinsFree"
+free = true
+
+[node name="Label" parent="VBoxContainer/Title" index="0"]
+text = "Free Pack"
+
+[node name="Label" parent="VBoxContainer/Body/VBoxContainer" index="0"]
+text = "100"
+
+[node name="TextureRect" parent="VBoxContainer/Body/VBoxContainer" index="1"]
+rect_min_size = Vector2( 256, 256 )
+rect_clip_content = true
+size_flags_vertical = 0
+
+[node name="TextureRect" parent="VBoxContainer/ButtonContainer/MarginContainer/HBoxContainer" index="0"]
+visible = true
+margin_left = 12.0
+margin_right = 92.0
+
+[node name="Label" parent="VBoxContainer/ButtonContainer/MarginContainer/HBoxContainer" index="1"]
+margin_left = 112.0
+margin_right = 252.0
+text = "3 Left"

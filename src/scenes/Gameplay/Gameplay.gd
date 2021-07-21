@@ -11,8 +11,8 @@ var pFiler := preload("res://src/utils/Filer.gd")
 var pRewardThrow := preload("res://src/scenes/Reward/RewardThrow.tscn")
 
 onready var home := $HomeLayer/Home
-onready var bestScore := $HomeLayer/Home/Body/BestScore
-onready var scoreValue := $HomeLayer/Home/Body/BestScore/Value
+onready var bestScore := $HomeLayer/Home/Layout/Body/BestScore
+onready var scoreValue := $HomeLayer/Home/Layout/Body/BestScore/Value
 onready var starsParticle := $Background/StarsParticle
 onready var hud := $HUDLayer/HUD
 onready var spawner := $Spawner
@@ -94,7 +94,10 @@ func start() -> void:
 
 
 func stop() -> void:
-	adMob.show_interstitial()
+	if intersLoaded:
+		adMob.show_interstitial()
+	else:
+		showHome()
 
 func showHome() -> void:
 	loadAds()
@@ -171,7 +174,10 @@ func _on_restart_pressed() -> void:
 
 
 func _on_continue_requested() -> void:
-	adMob.show_rewarded_video()
+	if rewardLoaded:
+		adMob.show_rewarded_video()
+	else:
+		player.restore()
 
 
 func _on_continue_cancelled() -> void:
@@ -212,6 +218,7 @@ func _on_AdMob_rewarded(currency, ammount) -> void:
 
 
 func _on_AdMob_banner_loaded() -> void:
+	Signals.emit_signal("on_banner_loaded", adMob.get_banner_dimension())
 	bannerLoaded = true
 
 

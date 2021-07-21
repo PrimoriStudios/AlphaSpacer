@@ -4,6 +4,8 @@
 [ext_resource path="res://src/scenes/Shop/ShopCard.tscn" type="PackedScene" id=2]
 
 [node name="CoinsNormalPack" instance=ExtResource( 2 )]
+id = "CoinsNormal"
+price = 3.99
 
 [node name="Label" parent="VBoxContainer/Title" index="0"]
 text = "Normal Pack"
@@ -14,5 +16,7 @@ text = "1500"
 [node name="TextureRect" parent="VBoxContainer/Body/VBoxContainer" index="1"]
 texture = ExtResource( 1 )
 
-[node name="Button" parent="VBoxContainer/ButtonContainer" index="0"]
+[node name="Label" parent="VBoxContainer/ButtonContainer/MarginContainer/HBoxContainer" index="1"]
+margin_left = 26.0
+margin_right = 238.0
 text = "USD 3.99"

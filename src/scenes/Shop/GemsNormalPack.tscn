@@ -1,22 +1,24 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/scenes/Shop/ShopCard.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/textures/coins-advanced.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/gems-normal.png" type="Texture" id=2]
 
-[node name="CoinsAdvancedPack" instance=ExtResource( 1 )]
-id = "CoinsAdvanced"
-price = 9.99
+[node name="GemsNormalPack" instance=ExtResource( 1 )]
+id = "GemsNormal"
+resType = 1
+price = 3.99
 
 [node name="Label" parent="VBoxContainer/Title" index="0"]
-text = "Advanced Pack"
+text = "Normal Pack"
 
 [node name="Label" parent="VBoxContainer/Body/VBoxContainer" index="0"]
-text = "5000"
+custom_colors/font_color = Color( 1, 0, 0.34902, 1 )
+text = "250"
 
 [node name="TextureRect" parent="VBoxContainer/Body/VBoxContainer" index="1"]
 texture = ExtResource( 2 )
 
 [node name="Label" parent="VBoxContainer/ButtonContainer/MarginContainer/HBoxContainer" index="1"]
-margin_left = 25.0
-margin_right = 239.0
-text = "USD 9.99"
+margin_left = 26.0
+margin_right = 238.0
+text = "USD 3.99"

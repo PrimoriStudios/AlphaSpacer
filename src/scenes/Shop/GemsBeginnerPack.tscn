@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scenes/Shop/ShopCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/gems-beginner.png" type="Texture" id=2]
+
+[node name="GemsBeginnerPack" instance=ExtResource( 1 )]
+id = "GemsBeginner"
+resType = 1
+price = 1.99
+
+[node name="Label" parent="VBoxContainer/Title" index="0"]
+text = "Beginner Pack"
+
+[node name="Label" parent="VBoxContainer/Body/VBoxContainer" index="0"]
+custom_colors/font_color = Color( 1, 0, 0.34902, 1 )
+text = "100"
+
+[node name="TextureRect" parent="VBoxContainer/Body/VBoxContainer" index="1"]
+texture = ExtResource( 2 )

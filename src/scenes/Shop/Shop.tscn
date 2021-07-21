@@ -1,15 +1,32 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/fonts/Baloo2-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/scenes/Shop/CoinsBeginnerPack.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/scenes/Shop/CoinsAdvancedPack.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/scenes/Shop/CoinsNormalPack.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/scenes/Shop/CoinsFreePack.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/scenes/Shop/GemsAdvancedPack.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/scenes/Shop/GemsBeginnerPack.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/scenes/Shop/GemsNormalPack.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/scenes/Shop/GemsFreePack.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/textures/back-arrow.png" type="Texture" id=10]
+[ext_resource path="res://assets/fonts/Baloo2-Bold.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://src/scenes/Shop/Shop.gd" type="Script" id=12]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.192157, 0.847059, 1, 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 84
+extra_spacing_top = -20
+extra_spacing_bottom = -20
+font_data = ExtResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0941176, 0.141176, 0.313726, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.365753, 0.405402, 0.550781, 1 )
+bg_color = Color( 0.192157, 0.847059, 1, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -19,92 +36,172 @@ corner_radius_bottom_left = 10
 size = 64
 font_data = ExtResource( 1 )
 
-[node name="Shop" type="ScrollContainer"]
+[node name="Shop" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 2.82849
-margin_bottom = 2.82849
+custom_constants/separation = 0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="PanelContainer" parent="."]
+margin_right = 1080.0
+margin_bottom = 140.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="Margin" type="MarginContainer" parent="Header"]
+margin_right = 1080.0
+margin_bottom = 140.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 20
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="Header/Margin"]
+margin_left = 50.0
+margin_top = 20.0
+margin_right = 335.0
+margin_bottom = 120.0
+focus_mode = 0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/hseparation = 40
+text = "Shop"
+icon = ExtResource( 10 )
+flat = true
+
+[node name="Body" type="Control" parent="."]
+margin_top = 140.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+size_flags_vertical = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Body"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_vertical = 3
 custom_styles/bg = SubResource( 1 )
+follow_focus = true
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Container" type="MarginContainer" parent="."]
+[node name="Container" type="MarginContainer" parent="Body/Scroll"]
 margin_right = 1068.0
-margin_bottom = 1940.0
+margin_bottom = 3256.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 60
 custom_constants/margin_top = 60
 custom_constants/margin_left = 60
 custom_constants/margin_bottom = 60
 
-[node name="Body" type="VBoxContainer" parent="Container"]
+[node name="Body" type="VBoxContainer" parent="Body/Scroll/Container"]
 margin_left = 60.0
 margin_top = 60.0
 margin_right = 1008.0
-margin_bottom = 1880.0
+margin_bottom = 3196.0
 custom_constants/separation = 60
 
-[node name="CoinsTitle" type="PanelContainer" parent="Container/Body"]
+[node name="CoinsTitle" type="PanelContainer" parent="Body/Scroll/Container/Body"]
 margin_right = 948.0
 margin_bottom = 102.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="Label" type="Label" parent="Container/Body/CoinsTitle"]
+[node name="Label" type="Label" parent="Body/Scroll/Container/Body/CoinsTitle"]
 margin_right = 948.0
 margin_bottom = 102.0
 custom_fonts/font = SubResource( 3 )
 text = "Coins"
 align = 1
 
-[node name="Row" type="HBoxContainer" parent="Container/Body"]
+[node name="Row" type="HBoxContainer" parent="Body/Scroll/Container/Body"]
 margin_top = 162.0
 margin_right = 948.0
 margin_bottom = 820.0
 custom_constants/separation = 60
 
-[node name="CoinsBeginnerPack" parent="Container/Body/Row" instance=ExtResource( 2 )]
+[node name="CoinsBeginnerPack" parent="Body/Scroll/Container/Body/Row" instance=ExtResource( 2 )]
 margin_right = 444.0
+script = null
 
-[node name="CoinsNormalPack" parent="Container/Body/Row" instance=ExtResource( 4 )]
+[node name="CoinsNormalPack" parent="Body/Scroll/Container/Body/Row" instance=ExtResource( 4 )]
 margin_left = 504.0
 margin_right = 948.0
+script = null
 
-[node name="Row2" type="HBoxContainer" parent="Container/Body"]
+[node name="Row2" type="HBoxContainer" parent="Body/Scroll/Container/Body"]
 margin_top = 880.0
 margin_right = 948.0
 margin_bottom = 1538.0
 custom_constants/separation = 60
 
-[node name="CoinsAdvancedPack" parent="Container/Body/Row2" instance=ExtResource( 3 )]
+[node name="CoinsAdvancedPack" parent="Body/Scroll/Container/Body/Row2" instance=ExtResource( 3 )]
 margin_right = 444.0
+script = null
 
-[node name="CoinsAdvancedPack2" parent="Container/Body/Row2" instance=ExtResource( 3 )]
+[node name="CoinsFreePack" parent="Body/Scroll/Container/Body/Row2" instance=ExtResource( 5 )]
 margin_left = 504.0
 margin_right = 948.0
+script = null
 
-[node name="Gems" type="PanelContainer" parent="Container/Body"]
+[node name="GemsTitle" type="PanelContainer" parent="Body/Scroll/Container/Body"]
 margin_top = 1598.0
 margin_right = 948.0
 margin_bottom = 1700.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="Label" type="Label" parent="Container/Body/Gems"]
+[node name="Label" type="Label" parent="Body/Scroll/Container/Body/GemsTitle"]
 margin_right = 948.0
 margin_bottom = 102.0
 custom_fonts/font = SubResource( 3 )
 text = "Gems"
 align = 1
 
-[node name="Row3" type="HBoxContainer" parent="Container/Body"]
+[node name="Row3" type="HBoxContainer" parent="Body/Scroll/Container/Body"]
 margin_top = 1760.0
 margin_right = 948.0
-margin_bottom = 1760.0
+margin_bottom = 2418.0
 custom_constants/separation = 60
 
-[node name="Row4" type="HBoxContainer" parent="Container/Body"]
-margin_top = 1820.0
+[node name="GemsBeginnerPack" parent="Body/Scroll/Container/Body/Row3" instance=ExtResource( 7 )]
+margin_right = 444.0
+script = null
+
+[node name="GemsNormalPack" parent="Body/Scroll/Container/Body/Row3" instance=ExtResource( 8 )]
+margin_left = 504.0
 margin_right = 948.0
-margin_bottom = 1820.0
+script = null
+
+[node name="Row4" type="HBoxContainer" parent="Body/Scroll/Container/Body"]
+margin_top = 2478.0
+margin_right = 948.0
+margin_bottom = 3136.0
 custom_constants/separation = 60
+
+[node name="GemsAdvancedPack" parent="Body/Scroll/Container/Body/Row4" instance=ExtResource( 6 )]
+margin_right = 444.0
+script = null
+
+[node name="GemsFreePack" parent="Body/Scroll/Container/Body/Row4" instance=ExtResource( 9 )]
+margin_left = 504.0
+margin_right = 948.0
+script = null
+
+[node name="ColorRect" type="ColorRect" parent="Body"]
+anchor_right = 1.0
+margin_bottom = 10.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BannerPadding" type="Control" parent="."]
+margin_top = 1920.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+
+[connection signal="pressed" from="Header/Margin/Button" to="." method="_on_Button_pressed"]
