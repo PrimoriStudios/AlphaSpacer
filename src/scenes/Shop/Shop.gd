@@ -8,6 +8,71 @@ var swipe_mouse_start
 var swipe_mouse_times = []
 var swipe_mouse_positions = []
 
+var payment
+
+func _ready():
+	Signals.connect("on_purchase_requested", self, "_on_purchase_requested")
+	
+	if Engine.has_singleton("GodotGooglePlayBilling"):
+		payment = Engine.get_singleton("GodotGooglePlayBilling")
+		
+		# These are all signals supported by the API
+		# You can drop some of these based on your needs
+		
+		# Fired when connected
+		payment.connect("connected", self, "_on_connected") # No params
+		# Fired when disconnected
+		payment.connect("disconnected", self, "_on_disconnected") # No params
+		# Fired when can't connect
+		payment.connect("connect_error", self, "_on_connect_error") # Response ID (int), Debug message (string)
+		# Fired when you get your purchases
+		payment.connect("purchases_updated", self, "_on_purchases_updated") # Purchases (Dictionary[])
+		# Fired when you can't get your purchases
+		payment.connect("purchase_error", self, "_on_purchase_error") # Response ID (int), Debug message (string)
+		# Fired when you get your sku details
+		payment.connect("sku_details_query_completed", self, "_on_sku_details_query_completed") # SKUs (Dictionary[])
+		# fired when you can't get your sku details
+		payment.connect("sku_details_query_error", self, "_on_sku_details_query_error") # Response ID (int), Debug message (string), Queried SKUs (string[])
+		# Fired when you purchase something
+		payment.connect("purchase_acknowledged", self, "_on_purchase_acknowledged") # Purchase token (string)
+		# Fired when you can't purchase something
+		payment.connect("purchase_acknowledgement_error", self, "_on_purchase_acknowledgement_error") # Response ID (int), Debug message (string), Purchase token (string)
+		# Fired when you use an item
+		payment.connect("purchase_consumed", self, "_on_purchase_consumed") # Purchase token (string)
+		# Fired when you can use an item
+		payment.connect("purchase_consumption_error", self, "_on_purchase_consumption_error") # Response ID (int), Debug message (string), Purchase token (string)
+
+#		payment.startConnection()
+
+
+func _on_connected():
+	var packs = get_tree().get_nodes_in_group("resource_pack")
+	var ids = []
+	
+	for pack in packs:
+		ids.append((pack as ShopCard).get_id())
+	
+	payment.querySkuDetails(ids, "inapp")
+
+
+func _on_purchase_requested(pack: ShopCard) -> void:
+	var response = payment.purchase(pack.get_id())
+	if response.status != OK:
+		print("[" + response.status + "] Error purchasing item: " + pack.get_id())
+
+
+func _purchases_updated(items):
+	for item in items:
+		if item.is_acknowledged:
+			payment.acknowledgePurchase(item.purchase_token)
+	
+	if items.size() > 0:
+		var token = items[items.size() - 1].purchase_token
+		if token != null:
+			payment.consumePurchase(token)
+		else:
+			print("Could not use the item with token: " + token)
+
 
 func _on_Button_pressed():
 	set_visible(false)

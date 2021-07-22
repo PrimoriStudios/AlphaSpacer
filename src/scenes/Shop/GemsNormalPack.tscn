@@ -19,6 +19,6 @@ text = "250"
 texture = ExtResource( 2 )
 
 [node name="Label" parent="VBoxContainer/ButtonContainer/MarginContainer/HBoxContainer" index="1"]
-margin_left = 26.0
-margin_right = 238.0
+margin_left = 32.0
+margin_right = 232.0
 text = "USD 3.99"
